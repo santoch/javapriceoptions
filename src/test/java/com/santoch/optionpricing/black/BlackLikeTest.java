@@ -58,7 +58,20 @@ public class BlackLikeTest {
 		System.out.println("testBlackImpVol1 bsiv=" + bsiv);
 		assertEquals(0.20d, bsiv, BlackLike.IV_PRECISION);
 	}
-	
+
+	@Test
+	public void testBJImpVol1() {
+		double p = 20.29616;
+		double s = 1177.62d;
+		double k = 1195.00d;
+		double t = 0.084931506849315d; // date 12/19/2017, expiration 1/19/2018, 31 days
+		double r = 0.0135d;
+		double q = 0.0d;
+		double bjiv = BlackLike.bjImpliedVol("C", p, s, k, r, t, 0.5, q);
+		System.out.println("testBJerkstensImpVol1 bjiv=" + bjiv);
+		assertEquals(0.20d, bjiv, BlackLike.IV_PRECISION);
+	}
+
 	@Test
 	public void testBsCallGreeks() {
 		
@@ -179,7 +192,7 @@ public class BlackLikeTest {
 		double q = 0.0d;
 		double v = 0.20d;
 		String type = "C";
-		double delta = BlackLike.bsDelta(type, s, k, v, t, r, q);
+		double delta = BlackLike.bjDelta(type, s, k, v, t, r, q);
 		// double gamma = BlackLike.bsGamma(type, s, k, v, t, r, q);
 		double vega = BlackLike.bjVega(type, s, k, v, t, r, q);
 		double theta = BlackLike.bjTheta(type, s, k, v, t, r, q);

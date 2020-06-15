@@ -1,5 +1,5 @@
 Forked from https://github.com/jasonmerecki/javapriceoptions
-
+# javapriceoptions ![build status](https://travis-ci.org/santoch/javapriceoptions.svg?branch=master)
 Calculations for theoretical option pricing, financial Greeks, and related topics such as stock price probability.
 
 The available open source options for Black-Scholes and Bjerksund-Stensland seemed complicated, 
