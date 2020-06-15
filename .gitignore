@@ -1,6 +1,4 @@
-/.gradle/
 .classpath
 .project
-/.settings/
-build/
-bin
+target
+*.iml

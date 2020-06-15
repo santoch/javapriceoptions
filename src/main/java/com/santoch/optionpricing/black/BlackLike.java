@@ -1,6 +1,6 @@
-package com.github.jasonmerecki.optpricing.black;
+package com.santoch.optionpricing.black;
 
-import static  com.github.jasonmerecki.optpricing.util.NormalDistribution.StandardNormal.*;
+import static  com.santoch.optionpricing.util.NormalDistribution.StandardNormal.*;
 
 // references:
 // http://www.macroption.com/black-scholes-formula/

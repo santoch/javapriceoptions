@@ -1,4 +1,4 @@
-package com.github.jasonmerecki.optpricing.util;
+package com.santoch.optionpricing.util;
 
 // references: 
 // http://mathworld.wolfram.com/NormalDistribution.html

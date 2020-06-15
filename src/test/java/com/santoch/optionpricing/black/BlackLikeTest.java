@@ -1,8 +1,8 @@
-package com.github.jasonmerecki.optpricing.black;
-
-import static org.junit.Assert.*;
+package com.santoch.optionpricing.black;
 
 import org.junit.Test;
+
+import static junit.framework.TestCase.assertEquals;
 
 public class BlackLikeTest {
 
