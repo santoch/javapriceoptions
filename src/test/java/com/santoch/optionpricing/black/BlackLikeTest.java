@@ -9,7 +9,7 @@ public class BlackLikeTest {
 	static final BjerksundStensland s_BjerksundStensland = new BjerksundStensland();
 
 	@Test
-	public void testBlackCall1() {
+	public void testBlackScholesCall1() {
 		// Result       /  Online calculator
 		// ---------------------------------------------
 		// 20.037       / https://www.mystockoptions.com/black-scholes.cfm
@@ -29,7 +29,7 @@ public class BlackLikeTest {
 	}
 
 	@Test
-	public void testBlackPut1() {
+	public void testBlackScholesPut1() {
 		// Result       /  Online calculator
 		// ---------------------------------------------
 		// n/a          / https://www.mystockoptions.com/black-scholes.cfm
@@ -49,7 +49,7 @@ public class BlackLikeTest {
 	}
 
 	@Test
-	public void testBlackImpVol1() {
+	public void testBlackScholesImpVol1() {
 		double p = 20.29616;
 		double s = 1177.62d;
 		double k = 1195.00d;
@@ -62,20 +62,7 @@ public class BlackLikeTest {
 	}
 
 	@Test
-	public void testBJImpVol1() {
-		double p = 20.29616;
-		double s = 1177.62d;
-		double k = 1195.00d;
-		double t = 0.084931506849315d; // date 12/19/2017, expiration 1/19/2018, 31 days
-		double r = 0.0135d;
-		double q = 0.0d;
-		double bjiv = s_BjerksundStensland.impliedVol("C", p, s, k, r, t, 0.5, q);
-		System.out.println("testBJerkstensImpVol1 bjiv=" + bjiv);
-		assertEquals(0.20d, bjiv, Constants.IV_PRECISION);
-	}
-
-	@Test
-	public void testBsCallGreeks() {
+	public void testBlackScholesCallGreeks() {
 
 		// online calculator comparisons
 		// http://www.cboe.com/framed/IVolframed.aspx?content=http%3a%2f%2fcboe.ivolatility.com%2fcalc%2findex.j%3fcontract%3dAE172F0B-BFE3-4A3D-B5A3-6085B2C4F088&sectionName=SEC_TRADING_TOOLS&title=CBOE%20-%20IVolatility%20Services
@@ -111,7 +98,7 @@ public class BlackLikeTest {
 	}
 
 	@Test
-	public void testBsPutGreeks() {
+	public void testBlackScholesPutGreeks() {
 
 		// online calculator comparisons
 		// http://www.cboe.com/framed/IVolframed.aspx?content=http%3a%2f%2fcboe.ivolatility.com%2fcalc%2findex.j%3fcontract%3dAE172F0B-BFE3-4A3D-B5A3-6085B2C4F088&sectionName=SEC_TRADING_TOOLS&title=CBOE%20-%20IVolatility%20Services
@@ -145,7 +132,20 @@ public class BlackLikeTest {
 	}
 
 	@Test
-	public void testBjerkStensCall1() {
+	public void testBjerksundStenslandImpVol1() {
+		double p = 20.29616;
+		double s = 1177.62d;
+		double k = 1195.00d;
+		double t = 0.084931506849315d; // date 12/19/2017, expiration 1/19/2018, 31 days
+		double r = 0.0135d;
+		double q = 0.0d;
+		double bjiv = s_BjerksundStensland.impliedVol("C", p, s, k, r, t, 0.5, q);
+		System.out.println("testBJerkstensImpVol1 bjiv=" + bjiv);
+		assertEquals(0.20d, bjiv, Constants.IV_PRECISION);
+	}
+
+	@Test
+	public void testBjerksundStenslandCall1() {
 		// Result       /  Online calculator
 		// ---------------------------------------------
 		// 19.0638      / http://www.fintools.com/resources/online-calculators/options-calcs/options-calculator/
@@ -164,7 +164,7 @@ public class BlackLikeTest {
 	}
 
 	@Test
-	public void testBjerkStensPut1() {
+	public void testBjerksundStenslandPut1() {
 		// Result       /  Online calculator
 		// ---------------------------------------------
 		// 22.0534      / http://www.fintools.com/resources/online-calculators/options-calcs/options-calculator/
@@ -177,13 +177,13 @@ public class BlackLikeTest {
 		double v = 0.20d;
 		double r = 0.0135d;
 		double q = 0.03d;
-		double bsprice = s_BlackScholes.priceOption("P", s, k, t, v, r, q);
+		double bsprice = s_BjerksundStensland.priceOption("P", s, k, t, v, r, q);
 		System.out.println("testBjerkStensPut1 bsprice=" + bsprice);
 		assertEquals(22.03875264497185d, bsprice, 0.00000000000d);
 	}
 
 	@Test
-	public void testBjCallGreeks() {
+	public void testBjerksundStenslandCallGreeks() {
 		// ??? did not find an exact equivalent for testing, 
 		// but assumed to be pretty close to the bs Greeks
 
@@ -207,5 +207,4 @@ public class BlackLikeTest {
 						+ ", rho=" + rho
 		);
 	}
-
 }
