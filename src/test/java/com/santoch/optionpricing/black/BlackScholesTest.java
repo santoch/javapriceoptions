@@ -23,7 +23,7 @@ public class BlackScholesTest {
 		double r = 0.0135d;
 		double q = 0.0d;
 		double bsprice = s_BlackScholes.priceOption("C", s, k, t, v, r, q);
-		System.out.println("testBlackCall1 bsprice=" + bsprice);
+		System.out.println("testBlackScholesCall1 bsprice=" + bsprice);
 		assertEquals(20.29616303951127d, bsprice, 0.00000000000d);
 	}
 
@@ -43,7 +43,7 @@ public class BlackScholesTest {
 		double r = 0.0135d;
 		double q = 0.0d;
 		double bsprice = s_BlackScholes.priceOption("P", s, k, t, v, r, q);
-		System.out.println("testBlackPut1 bsprice=" + bsprice);
+		System.out.println("testBlackScholesPut1 bsprice=" + bsprice);
 		assertEquals(0.2707906395245452d, bsprice, 0.00000000000d);
 	}
 
@@ -56,7 +56,7 @@ public class BlackScholesTest {
 		double r = 0.0135d;
 		double q = 0.0d;
 		double bsiv = s_BlackScholes.impliedVol("C", p, s, k, r, t, 0.5, q);
-		System.out.println("testBlackImpVol1 bsiv=" + bsiv);
+		System.out.println("testBlackScholesImpVol1 bsiv=" + bsiv);
 		assertEquals(0.20d, bsiv, Constants.IV_PRECISION);
 	}
 
@@ -83,7 +83,7 @@ public class BlackScholesTest {
 		double vega = s_BlackScholes.vega(type, s, k, v, t, r, q);
 		double theta = s_BlackScholes.theta(type, s, k, v, t, r, q);
 		double rho = s_BlackScholes.rho(type, s, k, v, t, r, q);
-		System.out.println("testBsCallGreeks"
+		System.out.println("testBlackScholesCallGreeks"
 				+ " delta=" + delta
 				+ ", gamma=" + gamma
 				+ ", vega=" + vega
@@ -117,7 +117,7 @@ public class BlackScholesTest {
 		double vega = s_BlackScholes.vega(type, s, k, v, t, r, q);
 		double theta = s_BlackScholes.theta(type, s, k, v, t, r, q);
 		double rho = s_BlackScholes.rho(type, s, k, v, t, r, q);
-		System.out.println("testBsPutGreeks"
+		System.out.println("testBlackScholesPutGreeks"
 				+ " delta=" + delta
 				+ ", gamma=" + gamma
 				+ ", vega=" + vega
@@ -129,6 +129,5 @@ public class BlackScholesTest {
 		assertEquals(-0.02206, theta, 0.0001d);
 		assertEquals(-0.00780, rho, 0.0001d);
 	}
-
 }
 

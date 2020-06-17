@@ -17,7 +17,7 @@ public class BjerksundStenslandTest {
 		double r = 0.0135d;
 		double q = 0.0d;
 		double bjiv = s_BjerksundStensland.impliedVol("C", p, s, k, r, t, 0.5, q);
-		System.out.println("testBJerkstensImpVol1 bjiv=" + bjiv);
+		System.out.println("testBjerksundStenslandImpVol1 bjiv=" + bjiv);
 		assertEquals(0.20d, bjiv, Constants.IV_PRECISION);
 	}
 
@@ -36,7 +36,7 @@ public class BjerksundStenslandTest {
 		double r = 0.0135d;
 		double q = 0.03d;
 		double bsprice = s_BjerksundStensland.priceOption("C", s, k, t, v, r, q);
-		System.out.println("testBjerkStensCall1 bsprice=" + bsprice);
+		System.out.println("testBjerksundStenslandCall1 bsprice=" + bsprice);
 		assertEquals(19.082618995152643d, bsprice, 0.00000000000d);
 	}
 
@@ -55,7 +55,7 @@ public class BjerksundStenslandTest {
 		double r = 0.0135d;
 		double q = 0.03d;
 		double bsprice = s_BjerksundStensland.priceOption("P", s, k, t, v, r, q);
-		System.out.println("testBjerkStensPut1 bsprice=" + bsprice);
+		System.out.println("testBjerksundStenslandPut1 bsprice=" + bsprice);
 		assertEquals(22.03875264497185d, bsprice, 0.00000000000d);
 	}
 
@@ -76,7 +76,7 @@ public class BjerksundStenslandTest {
 		double vega = s_BjerksundStensland.vega(type, s, k, v, t, r, q);
 		double theta = s_BjerksundStensland.theta(type, s, k, v, t, r, q);
 		double rho = s_BjerksundStensland.rho(type, s, k, v, t, r, q);
-		System.out.println("testBjCallGreeks"
+		System.out.println("testBjerksundStenslandCallGreeks"
 						+ " delta=" + delta
 						+ ", gamma=" + gamma
 						+ ", vega=" + vega
