@@ -4,6 +4,7 @@ import static com.santoch.optionpricing.util.NormalDistribution.StandardNormal.c
 
 public class BjerksundStensland implements IOptionModel{
     private static final BlackScholes s_blackScholes = new BlackScholes();
+
     public double priceOption(String type, double s, double k, double t, double v, double r, double q) {
         double b = r - q; // b is the cost of carry
         double price = 0.0d;
@@ -14,7 +15,7 @@ public class BjerksundStensland implements IOptionModel{
             if (-b > q || q == 0) {
                 return s_blackScholes.priceOption(type, s, k, t, v, r, q);
             }
-            price = bjerkStensInternal(k, s, t, v, -b, r - b, q);
+            price = priceImpl(k, s, t, v, -b, r - b, q);
         } else if ("C".equals(type)) {
             if (t <= 0) {
                 return Math.abs(s - k);
@@ -22,12 +23,12 @@ public class BjerksundStensland implements IOptionModel{
             if (b > r || q == 0) {
                 return s_blackScholes.priceOption(type, s, k, t, v, r, q);
             }
-            price = bjerkStensInternal(s, k, t, v, b, r, q);
+            price = priceImpl(s, k, t, v, b, r, q);
         }
         return price;
     }
 
-    private double bjerkStensInternal(double s, double k, double t, double v, double b, double r, double q) {
+    private double priceImpl(double s, double k, double t, double v, double b, double r, double q) {
         double v2 = v * v;
         double beta = (0.5 - (b / v2)) + Math.pow((Math.pow(((b / v2) - 0.5), 2) + (2 * r / v2)), 0.5);
 
@@ -43,23 +44,23 @@ public class BjerksundStensland implements IOptionModel{
         } else {
             double alpha = (X - k) * Math.pow(X, -beta);
             double tmp1 = alpha * Math.pow(s, beta);
-            double tmp2 = alpha * bjerkStensPhi(s, t, beta, X, X, v, r, b);
-            double tmp3 = bjerkStensPhi(s, t, 1, X, X, v, r, b);
-            double tmp4 = bjerkStensPhi(s, t, 1, k, X, v, r, b);
-            double tmp5 = k * bjerkStensPhi(s, t, 0, X, X, v, r, b);
-            double tmp6 = k * bjerkStensPhi(s, t, 0, k, X, v, r, b);
+            double tmp2 = alpha * phi(s, t, beta, X, X, v, r, b);
+            double tmp3 = phi(s, t, 1, X, X, v, r, b);
+            double tmp4 = phi(s, t, 1, k, X, v, r, b);
+            double tmp5 = k * phi(s, t, 0, X, X, v, r, b);
+            double tmp6 = k * phi(s, t, 0, k, X, v, r, b);
             return tmp1 - tmp2 + tmp3 - tmp4 - tmp5 + tmp6;
         }
     }
 
-    private double bjerkStensPhi(
-            double s, double t, double gamma, double h, double X, double v, double r, double b) {
+    private double phi(double s, double t, double gamma, double h, double X, double v, double r, double b) {
         double v2 = v * v;
         double K = ((2 * b) / v2) + (2 * gamma - 1);
         double lambda = -r + (gamma * b) + ((0.5 * gamma * (gamma - 1)) * v2);
-        double tmp1 = ((Math.log(s / h)) + (b + (gamma - 0.5) * v2) * t) / (v * Math.pow(t, 0.5));
+        final double vXsqrtT = v * Math.sqrt(t);
+        double tmp1 = ((Math.log(s / h)) + (b + (gamma - 0.5) * v2) * t) / vXsqrtT;
         //double tmp2 = (Math.log((X * X) / (s * h)) + (b + (gamma - 0.5) * v2) * t) / (v * Math.pow(t, 0.5));
-        double tmp2 = tmp1 + 2 * Math.log(X / s) / (v * Math.pow(t, 0.5));
+        double tmp2 = tmp1 + 2 * Math.log(X / s) / vXsqrtT;
 
         return Math.exp(lambda * t) * Math.pow(s, gamma) * (cdf(-tmp1) - (Math.pow(X / s, K)) * cdf(-tmp2));
     }
@@ -92,13 +93,11 @@ public class BjerksundStensland implements IOptionModel{
         return valt - val;
     }
 
-    public double rho(String type, double s, double k, double v,
-                      double t, double r, double q) {
+    public double rho(String type, double s, double k, double v, double t, double r, double q) {
         return s_blackScholes.rho(type, s, k, v, t, r, q);
     }
 
-    public double impliedVol(String type, double p, double s,
-                             double k, double r, double t, double v, double q) {
+    public double impliedVol(String type, double p, double s, double k, double r, double t, double v, double q) {
         v = v == 0d ? 0.5 : v;
         double errlimit = Constants.IV_PRECISION;
         double maxloops = 100;
