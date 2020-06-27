@@ -1,4 +1,4 @@
-package com.santoch.optionpricing.black;
+package com.santoch.optionpricing.util;
 
 public class Constants {
 	public static final double IV_PRECISION = 0.00001d;

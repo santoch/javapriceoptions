@@ -1,8 +1,11 @@
 package com.santoch.optionpricing.black;
 
+import com.santoch.optionpricing.util.Constants;
+import com.santoch.optionpricing.common.IOptionModel;
+
 import static com.santoch.optionpricing.util.NormalDistribution.StandardNormal.cdf;
 
-public class BjerksundStensland implements IOptionModel{
+public class BjerksundStensland implements IOptionModel {
     private static final BlackScholes s_blackScholes = new BlackScholes();
 
     public double priceOption(String type, double s, double k, double t, double v, double r, double q) {

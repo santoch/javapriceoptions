@@ -1,4 +1,4 @@
-package com.santoch.optionpricing.black;
+package com.santoch.optionpricing.common;
 
 public interface IOptionModel {
 

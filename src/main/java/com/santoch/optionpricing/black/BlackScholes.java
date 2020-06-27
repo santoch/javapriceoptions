@@ -1,8 +1,11 @@
 package com.santoch.optionpricing.black;
 
+import com.santoch.optionpricing.util.Constants;
+import com.santoch.optionpricing.common.IOptionModel;
+
 import static com.santoch.optionpricing.util.NormalDistribution.StandardNormal.cdf;
 
-public class BlackScholes implements IOptionModel{
+public class BlackScholes implements IOptionModel {
     // type == C(all) or P(ut)
     // s = stock price (current), k = strike price
     // t = expiry time (annualized where 1 = one year), v = volatility, r = risk-free rate
