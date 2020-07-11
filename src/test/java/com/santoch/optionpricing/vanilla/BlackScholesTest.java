@@ -1,4 +1,4 @@
-package com.santoch.optionpricing.black;
+package com.santoch.optionpricing.vanilla;
 
 import com.santoch.optionpricing.util.Constants;
 import org.junit.Test;
