@@ -1,8 +1,7 @@
 package com.santoch.optionpricing.util;
 
-import static org.junit.Assert.*;
-
 import org.apache.commons.math3.special.Erf;
+import org.junit.Assert;
 import org.junit.Test;
 
 public class NormalDistributionTest {
@@ -15,7 +14,7 @@ public class NormalDistributionTest {
         double expectedPdf = 0.3989422804014327;
         double ulp = Math.ulp(expectedPdf);
         System.out.println("for x=" + x + " the pdf=" + pdf + " expected=" + expectedPdf + " within " + ulp);
-        assertEquals(expectedPdf, pdf, ulp);
+        Assert.assertEquals(expectedPdf, pdf, ulp);
     }
 
     @Test
@@ -26,11 +25,11 @@ public class NormalDistributionTest {
         double expectedPdf = 0.34104578863035256d;
         double ulp = Math.ulp(expectedPdf); // see Math class javadoc
         System.out.println("for x=" + x + " the pdf=" + pdf + " expected=" + expectedPdf + " within " + ulp);
-        assertEquals(expectedPdf, pdf, ulp);
+        Assert.assertEquals(expectedPdf, pdf, ulp);
         x = -0.56d;
         pdf = nd.pdf(x);
         System.out.println("for x=" + x + " the pdf=" + pdf + " expected=" + expectedPdf + " within " + ulp);
-        assertEquals(expectedPdf, pdf, ulp);
+        Assert.assertEquals(expectedPdf, pdf, ulp);
     }
 
     @Test
@@ -41,7 +40,7 @@ public class NormalDistributionTest {
         double expectedPdf = 0.05399096651318806;
         double ulp = Math.ulp(expectedPdf);
         System.out.println("for x=" + x + " the pdf=" + pdf + " expected=" + expectedPdf + " within " + ulp);
-        assertEquals(expectedPdf, pdf, ulp);
+        Assert.assertEquals(expectedPdf, pdf, ulp);
     }
 
 
@@ -63,8 +62,8 @@ public class NormalDistributionTest {
         double expectedPdf = 0.3989422804014327;
         double ulp = Math.ulp(expectedPdf);
         System.out.println("for maxX=" + maxX + " the pdf=" + pdf + " expected=" + expectedPdf + " within " + ulp);
-        assertEquals(expectedPdf, pdf, ulp);
-        assertEquals(expectedMaxX, maxX, 0.000000000001d);
+        Assert.assertEquals(expectedPdf, pdf, ulp);
+        Assert.assertEquals(expectedMaxX, maxX, 0.000000000001d);
     }
 
     @Test
@@ -78,7 +77,7 @@ public class NormalDistributionTest {
         double ulp = Math.ulp(expectedPdf);
         System.out.println("for x=" + x + " the pdf=" + pdf + " expected(from Apache)=" +
                 expectedPdf + " within " + ulp);
-        assertEquals(expectedPdf, pdf, ulp);
+        Assert.assertEquals(expectedPdf, pdf, ulp);
     }
 
 
@@ -93,7 +92,7 @@ public class NormalDistributionTest {
         double ulp = Math.ulp(expectedPdf);
         System.out.println("for mean/stdev 34.3d, 3.22d x=" + x + " the pdf=" + pdf +
                 " expected(from Apache)=" + expectedPdf + " within " + ulp);
-        assertEquals(expectedPdf, pdf, ulp);
+        Assert.assertEquals(expectedPdf, pdf, ulp);
     }
 
     @Test
@@ -104,7 +103,7 @@ public class NormalDistributionTest {
         double expectedCdf = 0.7122603051006894d;
         double ulp = Math.ulp(expectedCdf);
         System.out.println("for x=" + x + " the cdf=" + cdf + " expected=" + expectedCdf + " within " + ulp);
-        assertEquals(expectedCdf, cdf, ulp);
+        Assert.assertEquals(expectedCdf, cdf, ulp);
     }
 
     @Test
@@ -116,7 +115,7 @@ public class NormalDistributionTest {
         double ulp = Math.ulp(expectedCdf);
         System.out.println("for mean/stdev 34.3d, 3.22d, x=" + x + " the cdf=" + cdf +
                 " expected=" + expectedCdf + " within " + ulp);
-        assertEquals(expectedCdf, cdf, ulp);
+        Assert.assertEquals(expectedCdf, cdf, ulp);
     }
 
     @Test
@@ -130,7 +129,7 @@ public class NormalDistributionTest {
         double ulp = 1.0e-7;
         System.out.println("for x=" + x + " the cdf=" + cdf +
                 " expected(from Apache)=" + expectedCdf + " within " + ulp);
-        assertEquals(expectedCdf, cdf, ulp);
+        Assert.assertEquals(expectedCdf, cdf, ulp);
     }
 
     @Test
@@ -144,7 +143,7 @@ public class NormalDistributionTest {
         double ulp = 1.0e-7;
         System.out.println("for mean/stdev 34.3d, 3.22d, x=" + x + " the cdf=" + cdf +
                 " expected(from Apache)=" + expectedCdf + " within " + ulp);
-        assertEquals(expectedCdf, cdf, ulp);
+        Assert.assertEquals(expectedCdf, cdf, ulp);
     }
 
     @Test
@@ -154,7 +153,7 @@ public class NormalDistributionTest {
         double expectedCdf = 0.7122603051006894d;
         double ulp = Math.ulp(expectedCdf);
         System.out.println("stdnormal, for x=" + x + " the cdf=" + cdf + " expected=" + expectedCdf + " within " + ulp);
-        assertEquals(expectedCdf, cdf, ulp);
+        Assert.assertEquals(expectedCdf, cdf, ulp);
     }
 
     @Test
@@ -168,7 +167,7 @@ public class NormalDistributionTest {
         double ulp = Math.ulp(expectedCdf);
         System.out.println("stdnormal, for x=" + x + " the cdfConvert=" + cdfConvert +
                 " expected=" + expectedCdf + " within " + ulp);
-        assertEquals(expectedCdf, cdfConvert, ulp);
+        Assert.assertEquals(expectedCdf, cdfConvert, ulp);
     }
 
     @Test
@@ -178,7 +177,7 @@ public class NormalDistributionTest {
         double expectedPdf = 0.34104578863035256d;
         double ulp = Math.ulp(expectedPdf);
         System.out.println("stdnormal, for x=" + x + " the pdf=" + pdf + " expected=" + expectedPdf + " within " + ulp);
-        assertEquals(expectedPdf, pdf, ulp);
+        Assert.assertEquals(expectedPdf, pdf, ulp);
     }
 
     @Test
@@ -188,7 +187,7 @@ public class NormalDistributionTest {
         double expectedErf = 0.5716157766617889d;
         double ulp = 1.0e-3;
         System.out.println("erf, for x=" + 1 + " the erf=" + erf + " expectedErf=" + expectedErf + " within " + ulp);
-        assertEquals(expectedErf, erf, ulp);
+        Assert.assertEquals(expectedErf, erf, ulp);
     }
 
     @Test
@@ -198,7 +197,7 @@ public class NormalDistributionTest {
         double expectedErf = Erf.erf(0.56);
         double ulp = 1.0e-3;
         System.out.println("erf, for x=" + 1 + " the erf=" + erf + " expectedErf=" + expectedErf + " within " + ulp);
-        assertEquals(expectedErf, erf, ulp);
+        Assert.assertEquals(expectedErf, erf, ulp);
     }
 
     @Test
@@ -208,7 +207,7 @@ public class NormalDistributionTest {
         double ulp = 1.0e-5;
         System.out.println("stdnormal Cdf, for x=" + 0 + " with mean=" + 0 + " expected=" + expectedCdf + " within "
                 + ulp);
-        assertEquals(expectedCdf, actualCdf, ulp);
+        Assert.assertEquals(expectedCdf, actualCdf, ulp);
     }
 
     @Test
@@ -217,7 +216,7 @@ public class NormalDistributionTest {
         double actualMean = NormalDistribution.StandardNormal.getMean();
         double ulp = 1.0e-5;
         System.out.println("stdnormal mean, expected= " + expectedMean + " within " + ulp);
-        assertEquals(expectedMean, actualMean, ulp);
+        Assert.assertEquals(expectedMean, actualMean, ulp);
     }
 
     @Test
@@ -226,6 +225,6 @@ public class NormalDistributionTest {
         double actualStdDev = NormalDistribution.StandardNormal.getStandardDeviation();
         double ulp = 1.0e-5;
         System.out.println("stdnormal StdDev, expected= " + expectedStdDev + " within " + ulp);
-        assertEquals(expectedStdDev, actualStdDev, ulp);
+        Assert.assertEquals(expectedStdDev, actualStdDev, ulp);
     }
 }

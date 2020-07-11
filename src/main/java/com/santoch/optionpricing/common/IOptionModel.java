@@ -1,5 +1,7 @@
 package com.santoch.optionpricing.common;
 
+import java.time.ZonedDateTime;
+
 public interface IOptionModel {
 
     // type == C(all) or P(ut)
@@ -14,4 +16,6 @@ public interface IOptionModel {
     double theta(String type, double s, double k, double v, double t, double r, double q);
     double rho(String type, double s, double k, double v, double t, double r, double q);
     double impliedVol(String type, double p, double s, double k, double r, double t, double v, double q);
+    IGreeks greeks(ZonedDateTime updateTime, String type, double bid, double ask, double smv,
+                   double underlying, double k, double r, double t, double v, double q);
 }

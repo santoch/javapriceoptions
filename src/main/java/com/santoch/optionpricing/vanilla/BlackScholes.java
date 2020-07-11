@@ -1,7 +1,11 @@
 package com.santoch.optionpricing.vanilla;
 
-import com.santoch.optionpricing.util.Constants;
+import com.santoch.optionpricing.common.IGreeks;
+import com.santoch.optionpricing.common.utils;
 import com.santoch.optionpricing.common.IOptionModel;
+import com.santoch.optionpricing.util.Constants;
+
+import java.time.ZonedDateTime;
 
 import static com.santoch.optionpricing.util.NormalDistribution.StandardNormal.cdf;
 
@@ -132,5 +136,11 @@ public class BlackScholes implements IOptionModel {
             n++;
         }
         return n < maxloops ? v : Double.NaN;
+    }
+
+    @Override
+    public IGreeks greeks(ZonedDateTime updateTime, String type, double bid, double ask, double smv,
+                          double s, double k, double r, double t, double v, double q) {
+        return utils.greeks(this, updateTime, type, bid, ask, smv, s, k, r, t, v, q, true);
     }
 }

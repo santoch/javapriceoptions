@@ -23,10 +23,6 @@ public interface IGreeks {
 
     void setRho(double rho);
 
-    double getPhi();
-
-    void setPhi(double phi);
-
     double getBidIv();
 
     void setBidIv(double bid_iv);
