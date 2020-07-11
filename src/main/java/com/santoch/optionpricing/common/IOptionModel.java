@@ -8,14 +8,28 @@ public interface IOptionModel {
     // s = stock price (current), k = strike price
     // t = expiry time (annualized where 1 = one year), v = volatility, r = risk-free rate
     // q = dividend yield
-    double priceOption(String type, double s, double k, double t, double v, double r, double q);
+    double priceOption(String type, double underlyingPrice, double strikePrice, double timeRemaining,
+                       double volatility, double interestRate, double dividendYield);
 
-    double delta(String type, double s, double k, double v, double t, double r, double q);
-    double gamma(double s, double k, double v, double t, double r, double q);
-    double vega(String type, double s, double k, double v, double t, double r, double q);
-    double theta(String type, double s, double k, double v, double t, double r, double q);
-    double rho(String type, double s, double k, double v, double t, double r, double q);
-    double impliedVol(String type, double p, double s, double k, double r, double t, double v, double q);
-    IGreeks greeks(ZonedDateTime updateTime, String type, double bid, double ask, double smv,
-                   double underlying, double k, double r, double t, double v, double q);
+    double delta(String type, double underlyingPrice, double strikePrice, double volatility,
+                 double timeRemaining, double interestRate, double dividendYield);
+
+    double gamma(double underlyingPrice, double strikePrice, double volatility,
+                 double timeRemaining, double interestRate, double dividendYield);
+
+    double vega(String type, double underlyingPrice, double strikePrice, double volatility,
+                double timeRemaining, double interestRate, double dividendYield);
+
+    double theta(String type, double underlyingPrice, double strikePrice, double volatility,
+                 double timeRemaining, double interestRate, double dividendYield);
+
+    double rho(String type, double underlyingPrice, double strikePrice, double volatility,
+               double timeRemaining, double interestRate, double dividendYield);
+
+    double impliedVolatility(String type, double optionPrice, double underlyingPrice, double strikePrice,
+                             double interestRate, double timeRemaining, double initialVolatility, double dividendYield);
+
+    IGreeks greeks(ZonedDateTime updateTime, String type, double bid, double ask, double smvPrice,
+                   double underlyingPrice, double strikePrice, double interestRate, double timeRemaining,
+                   double initialVolatility, double dividendYield);
 }

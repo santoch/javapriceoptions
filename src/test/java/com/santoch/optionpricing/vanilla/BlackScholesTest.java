@@ -56,7 +56,7 @@ public class BlackScholesTest {
 		double t = 0.084931506849315d; // date 12/19/2017, expiration 1/19/2018, 31 days
 		double r = 0.0135d;
 		double q = 0.0d;
-		double bsiv = s_BlackScholes.impliedVol("C", p, s, k, r, t, 0.5, q);
+		double bsiv = s_BlackScholes.impliedVolatility("C", p, s, k, r, t, 0.5, q);
 		System.out.println("testBlackScholesImpVol1 bsiv=" + bsiv);
 		assertEquals(0.20d, bsiv, Constants.IV_PRECISION);
 	}
