@@ -1,11 +1,7 @@
 package com.santoch.optionpricing.vanilla;
 
-import com.santoch.optionpricing.common.IGreeks;
-import com.santoch.optionpricing.common.utils;
 import com.santoch.optionpricing.util.Constants;
 import org.junit.Test;
-
-import java.time.ZonedDateTime;
 
 import static junit.framework.TestCase.assertEquals;
 
@@ -62,8 +58,8 @@ public class BlackScholesTest {
 		double timeRemaining = 0.084931506849315d; // date 12/19/2017, expiration 1/19/2018, 31 days
 		double interestRate = 0.0135d;
 		double dividendYield = 0.0d;
-		double bsiv = s_BlackScholes.impliedVolatility("C", price, underlyingPrice, strikePrice, interestRate,
-				timeRemaining, 0.5, dividendYield);
+		double bsiv = s_BlackScholes.impliedVolatility("C", price, underlyingPrice, strikePrice, timeRemaining, 0.5, interestRate,
+				dividendYield);
 		System.out.println("testBlackScholesCallImpVol bsiv=" + bsiv);
 		assertEquals(0.20d, bsiv, Constants.IV_PRECISION);
 	}
@@ -76,8 +72,8 @@ public class BlackScholesTest {
 		double timeRemaining = 0.084931506849315d; // date 12/19/2017, expiration 1/19/2018, 31 days
 		double interestRate = 0.0135d;
 		double dividendYield = 0.0d;
-		double bsiv = s_BlackScholes.impliedVolatility("P", price, underlyingPrice, strikePrice, interestRate,
-				timeRemaining, 0.5, dividendYield);
+		double bsiv = s_BlackScholes.impliedVolatility("P", price, underlyingPrice, strikePrice, timeRemaining, 0.5, interestRate,
+				dividendYield);
 		System.out.println("testBlackScholesPutImpVol bsiv=" + bsiv);
 		assertEquals(0.25d, bsiv, Constants.IV_PRECISION);
 	}
@@ -101,11 +97,11 @@ public class BlackScholesTest {
 		double volatility = 0.20d;
 		String type = "C";
 
-		double delta = s_BlackScholes.delta(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
-		double gamma = s_BlackScholes.gamma(underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
-		double vega = s_BlackScholes.vega(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
-		double theta = s_BlackScholes.theta(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
-		double rho = s_BlackScholes.rho(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
+		double delta = s_BlackScholes.delta(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
+		double gamma = s_BlackScholes.gamma(underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
+		double vega = s_BlackScholes.vega(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
+		double theta = s_BlackScholes.theta(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
+		double rho = s_BlackScholes.rho(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
 
 		System.out.println("testBlackScholesCallGreeks"
 				+ " delta=" + delta
@@ -137,11 +133,11 @@ public class BlackScholesTest {
 		double dividendYield = 0.0d;
 		double volatility = 0.25d;
 		String type = "P";
-		double delta = s_BlackScholes.delta(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
-		double gamma = s_BlackScholes.gamma(underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
-		double vega = s_BlackScholes.vega(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
-		double theta = s_BlackScholes.theta(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
-		double rho = s_BlackScholes.rho(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
+		double delta = s_BlackScholes.delta(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
+		double gamma = s_BlackScholes.gamma(underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
+		double vega = s_BlackScholes.vega(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
+		double theta = s_BlackScholes.theta(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
+		double rho = s_BlackScholes.rho(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
 		System.out.println("testBlackScholesPutGreeks"
 				+ " delta=" + delta
 				+ ", gamma=" + gamma

@@ -6,29 +6,41 @@ import java.time.ZonedDateTime;
 
 public class utils {
     static public IGreeks greeks(IOptionModel model, ZonedDateTime updateTime, String type, double bid, double ask,
-                                 double smv,  double underlyingPrice, double strikePrice, double interestRate,
-                                 double timeRemaining, double volatility, double dividendYield, boolean useSmvVol) {
+                                 double smv, double underlyingPrice, double strikePrice, double timeRemaining,
+                                 double initialVolatility, double interestRate, double dividendYield,
+                                 boolean useSmvVol) {
 
         GreeksImpl greeks = new GreeksImpl();
         double mid = (bid + ask) / 2.0;
         smv = smv > 0 ? smv : mid;
 
-        double smvVol = model.impliedVolatility(type, smv, underlyingPrice, strikePrice, interestRate, timeRemaining, volatility, dividendYield);
+        double smvVol = model.impliedVolatility(type, smv, underlyingPrice, strikePrice, timeRemaining,
+                initialVolatility,
+                interestRate, dividendYield);
         greeks.setSmvVol(smvVol);
         if (useSmvVol) {
-            volatility = smvVol;
+            initialVolatility = smvVol;
         }
 
         greeks.setUpdate_time(updateTime);
-        greeks.setAskIv(model.impliedVolatility(type, ask, underlyingPrice, strikePrice, interestRate, timeRemaining, volatility, dividendYield));
-        greeks.setBidIv(model.impliedVolatility(type, bid, underlyingPrice, strikePrice, interestRate, timeRemaining, volatility, dividendYield));
-        greeks.setMidIv(model.impliedVolatility(type, mid, underlyingPrice, strikePrice, interestRate, timeRemaining, volatility, dividendYield));
-        greeks.setDelta(model.delta(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield));
-        greeks.setGamma(model.gamma(underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield));
-        greeks.setDelta(model.delta(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield));
-        greeks.setTheta(model.theta(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield));
-        greeks.setVega(model.vega(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield));
-        greeks.setRho(model.rho(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield));
+        greeks.setAskIv(model.impliedVolatility(type, ask, underlyingPrice, strikePrice, timeRemaining,
+                initialVolatility, interestRate, dividendYield));
+        greeks.setBidIv(model.impliedVolatility(type, bid, underlyingPrice, strikePrice, timeRemaining,
+                initialVolatility, interestRate, dividendYield));
+        greeks.setMidIv(model.impliedVolatility(type, mid, underlyingPrice, strikePrice, timeRemaining,
+                initialVolatility, interestRate, dividendYield));
+        greeks.setDelta(model.delta(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate,
+                dividendYield));
+        greeks.setGamma(model.gamma(underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate,
+                dividendYield));
+        greeks.setDelta(model.delta(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate,
+                dividendYield));
+        greeks.setTheta(model.theta(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate,
+                dividendYield));
+        greeks.setVega(model.vega(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate,
+                dividendYield));
+        greeks.setRho(model.rho(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate,
+                dividendYield));
 
         return greeks;
     }

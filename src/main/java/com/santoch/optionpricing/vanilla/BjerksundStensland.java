@@ -43,13 +43,14 @@ public class BjerksundStensland implements IOptionModel {
     private double priceImpl(double underlyingPrice, double strikePrice, double timeRemaining, double volatility,
                              double costOfCarry, double interestRate, double dividendYield) {
         double v2 = volatility * volatility;
-        double beta = (0.5 - (costOfCarry / v2)) + Math.pow((Math.pow(((costOfCarry / v2) - 0.5), 2) + (2 * interestRate / v2)), 0.5);
+        double beta =
+                (0.5 - (costOfCarry / v2)) + Math.pow((Math.pow(((costOfCarry / v2) - 0.5), 2) + (2 * interestRate / v2)), 0.5);
 
         double betainfinity = (beta / (beta - 1)) * strikePrice;
         double betazero = Math.max(strikePrice, (interestRate / dividendYield) * strikePrice);
 
         double h = -((costOfCarry * timeRemaining) + (2 * volatility * Math.pow(timeRemaining, 0.5))) *
-                ((strikePrice * strikePrice) / ((betainfinity - betazero) * betazero));
+                   ((strikePrice * strikePrice) / ((betainfinity - betazero) * betazero));
         double X = betazero + ((betainfinity - betazero) * (1 - Math.exp(h)));
 
         if (X < underlyingPrice) {
@@ -58,11 +59,14 @@ public class BjerksundStensland implements IOptionModel {
         } else {
             double alpha = (X - strikePrice) * Math.pow(X, -beta);
             double tmp1 = alpha * Math.pow(underlyingPrice, beta);
-            double tmp2 = alpha * phi(underlyingPrice, timeRemaining, beta, X, X, volatility, interestRate, costOfCarry);
+            double tmp2 = alpha * phi(underlyingPrice, timeRemaining, beta, X, X, volatility, interestRate,
+                    costOfCarry);
             double tmp3 = phi(underlyingPrice, timeRemaining, 1, X, X, volatility, interestRate, costOfCarry);
             double tmp4 = phi(underlyingPrice, timeRemaining, 1, strikePrice, X, volatility, interestRate, costOfCarry);
-            double tmp5 = strikePrice * phi(underlyingPrice, timeRemaining, 0, X, X, volatility, interestRate, costOfCarry);
-            double tmp6 = strikePrice * phi(underlyingPrice, timeRemaining, 0, strikePrice, X, volatility, interestRate, costOfCarry);
+            double tmp5 = strikePrice * phi(underlyingPrice, timeRemaining, 0, X, X, volatility, interestRate,
+                    costOfCarry);
+            double tmp6 = strikePrice * phi(underlyingPrice, timeRemaining, 0, strikePrice, X, volatility,
+                    interestRate, costOfCarry);
             return tmp1 - tmp2 + tmp3 - tmp4 - tmp5 + tmp6;
         }
     }
@@ -79,47 +83,63 @@ public class BjerksundStensland implements IOptionModel {
         return Math.exp(lambda * t) * Math.pow(s, gamma) * (cdf(-tmp1) - (Math.pow(X / s, K)) * cdf(-tmp2));
     }
 
-    public double delta(String type, double underlyingPrice, double strikePrice, double volatility, double timeRemaining, double interestRate, double dividendYield) {
+    public double delta(String type, double underlyingPrice, double strikePrice, double timeRemaining,
+                        double volatility, double interestRate, double dividendYield) {
         double umove = 1.01;
         double dmove = 1 / umove;
-        double uval = priceOption(type, underlyingPrice * umove, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
-        double dval = priceOption(type, underlyingPrice * dmove, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
+        double uval = priceOption(type, underlyingPrice * umove, strikePrice, timeRemaining, volatility, interestRate
+                , dividendYield);
+        double dval = priceOption(type, underlyingPrice * dmove, strikePrice, timeRemaining, volatility, interestRate
+                , dividendYield);
         return (uval - dval) / (underlyingPrice * (umove - dmove));
     }
 
-    public double gamma(double underlyingPrice, double strikePrice, double volatility, double timeRemaining, double interestRate, double dividendYield) {
-        return s_blackScholes.gamma(underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
+    public double gamma(double underlyingPrice, double strikePrice, double timeRemaining, double volatility,
+                        double interestRate, double dividendYield) {
+        return s_blackScholes.gamma(underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
+                dividendYield);
     }
 
-    public double vega(String type, double underlyingPrice, double strikePrice, double volatility, double timeRemaining, double interestRate, double dividendYield) {
+    public double vega(String type, double underlyingPrice, double strikePrice, double timeRemaining,
+                       double volatility, double interestRate, double dividendYield) {
         double m = 0.01;
-        double val1 = priceOption(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
-        double val2 = priceOption(type, underlyingPrice, strikePrice, timeRemaining, volatility + m, interestRate, dividendYield);
+        double val1 = priceOption(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
+                dividendYield);
+        double val2 = priceOption(type, underlyingPrice, strikePrice, timeRemaining, volatility + m, interestRate,
+                dividendYield);
         return (val2 - val1) / m / 100d;
     }
 
-    public double theta(String type, double underlyingPrice, double strikePrice, double volatility,
-                        double timeRemaining, double interestRate, double dividendYield) {
+    public double theta(String type, double underlyingPrice, double strikePrice, double timeRemaining,
+                        double volatility,
+                        double interestRate, double dividendYield) {
         double y = timeRemaining - Constants.ONE_DAY;
         y = (y < 0) ? 0 : y;
-        double val = priceOption(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate, dividendYield);
+        double val = priceOption(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
+                dividendYield);
         double valt = priceOption(type, underlyingPrice, strikePrice, y, volatility, interestRate, dividendYield);
         return valt - val;
     }
 
-    public double rho(String type, double underlyingPrice, double strikePrice, double volatility, double timeRemaining, double interestRate, double dividendYield) {
-        return s_blackScholes.rho(type, underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
+    public double rho(String type, double underlyingPrice, double strikePrice, double timeRemaining,
+                      double volatility, double interestRate, double dividendYield) {
+        return s_blackScholes.rho(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
+                dividendYield);
     }
 
-    public double impliedVolatility(String type, double optionPrice, double underlyingPrice, double strikePrice, double interestRate, double timeRemaining, double initialVolatility, double dividendYield) {
+    public double impliedVolatility(String type, double optionPrice, double underlyingPrice, double strikePrice,
+                                    double timeRemaining, double initialVolatility, double interestRate,
+                                    double dividendYield) {
         initialVolatility = initialVolatility == 0d ? 0.5 : initialVolatility;
         double errlimit = Constants.IV_PRECISION;
         double maxloops = 100;
         double dv = errlimit + 1;
         double n = 0;
         while (Math.abs(dv) > errlimit && n < maxloops) {
-            double difval = priceOption(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate, dividendYield) - optionPrice;
-            double v1 = vega(type, underlyingPrice, strikePrice, initialVolatility, timeRemaining, interestRate, dividendYield) / 0.01;
+            double difval = priceOption(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility,
+                    interestRate, dividendYield) - optionPrice;
+            double v1 = vega(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate,
+                    dividendYield) / 0.01;
             dv = difval / v1;
             initialVolatility = initialVolatility - dv;
             n++;
@@ -127,9 +147,12 @@ public class BjerksundStensland implements IOptionModel {
         return n < maxloops ? initialVolatility : Double.NaN;
     }
 
+    @Override
     public IGreeks greeks(ZonedDateTime updateTime, String type, double bid, double ask, double smvPrice,
-                          double s, double strikePrice, double interestRate, double timeRemaining, double initialVolatility, double dividendYield) {
-        return utils.greeks(this, updateTime, type, bid, ask, smvPrice, s, strikePrice, interestRate, timeRemaining, initialVolatility, dividendYield, true);
+                          double s, double strikePrice, double timeRemaining, double initialVolatility,
+                          double interestRate, double dividendYield) {
+        return utils.greeks(this, updateTime, type, bid, ask, smvPrice, s, strikePrice, timeRemaining,
+                initialVolatility, interestRate,
+                dividendYield, true);
     }
-
 }

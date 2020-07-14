@@ -1,8 +1,8 @@
 package com.santoch.optionpricing.vanilla;
 
 import com.santoch.optionpricing.common.IGreeks;
-import com.santoch.optionpricing.common.utils;
 import com.santoch.optionpricing.common.IOptionModel;
+import com.santoch.optionpricing.common.utils;
 import com.santoch.optionpricing.util.Constants;
 
 import java.time.ZonedDateTime;
@@ -60,7 +60,8 @@ public class BlackScholes implements IOptionModel {
         return etod1sqhalf;
     }
 
-    public double delta(String type, double underlyingPrice, double strikePrice, double volatility, double timeRemaining, double interestRate, double dividendYield) {
+    public double delta(String type, double underlyingPrice, double strikePrice, double timeRemaining,
+                        double volatility, double interestRate, double dividendYield) {
         double drq = Math.exp(-dividendYield * timeRemaining);
         double zo = ("P".equals(type)) ? -1d : 0d;
         double vt = (volatility * (Math.sqrt(timeRemaining)));
@@ -69,8 +70,8 @@ public class BlackScholes implements IOptionModel {
         return drq * (cdfd1 + zo);
     }
 
-    public double gamma(double underlyingPrice, double strikePrice, double volatility,
-                        double timeRemaining, double interestRate, double dividendYield) {
+    public double gamma(double underlyingPrice, double strikePrice, double timeRemaining, double volatility,
+                        double interestRate, double dividendYield) {
         double drq = Math.exp(-dividendYield * timeRemaining);
         double drd = (underlyingPrice * volatility * Math.sqrt(timeRemaining));
         double d1pdf = d1pdf(underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
@@ -78,15 +79,17 @@ public class BlackScholes implements IOptionModel {
     }
 
     // Greeks (generally follows the macroption.com spreadsheet formula)
-    public double vega(String type, double underlyingPrice, double strikePrice, double volatility, double timeRemaining, double interestRate, double dividendYield) {
+    public double vega(String type, double underlyingPrice, double strikePrice, double timeRemaining,
+                       double volatility, double interestRate, double dividendYield) {
         double d1pdf = d1pdf(underlyingPrice, strikePrice, volatility, timeRemaining, interestRate, dividendYield);
         double drq = Math.exp(-dividendYield * timeRemaining);
         double sqt = Math.sqrt(timeRemaining);
         return (d1pdf) * drq * underlyingPrice * sqt * 0.01;
     }
 
-    public double theta(String type, double underlyingPrice, double strikePrice, double volatility,
-                        double timeRemaining, double interestRate, double dividendYield) {
+    public double theta(String type, double underlyingPrice, double strikePrice, double timeRemaining,
+                        double volatility,
+                        double interestRate, double dividendYield) {
         double sign = ("P".equals(type)) ? -1d : 1d;
         double drq = Math.exp(-dividendYield * timeRemaining);
         double dr = Math.exp(-interestRate * timeRemaining);
@@ -109,8 +112,8 @@ public class BlackScholes implements IOptionModel {
         return (p1 + p2 + p3) / 365;
     }
 
-    public double rho(String type, double underlyingPrice, double strikePrice, double volatility,
-                      double timeRemaining, double interestRate, double dividendYield) {
+    public double rho(String type, double underlyingPrice, double strikePrice, double timeRemaining, double volatility,
+                      double interestRate, double dividendYield) {
         double sign = ("P".equals(type)) ? -1d : 1d;
         double dr = Math.exp(-interestRate * timeRemaining);
         double p1 = sign * (strikePrice * timeRemaining * dr) / 100;
@@ -124,14 +127,17 @@ public class BlackScholes implements IOptionModel {
 
     // Implied vol
     public double impliedVolatility(String type, double optionPrice, double underlyingPrice,
-                                    double strikePrice, double interestRate, double timeRemaining, double initialVolatility, double dividendYield) {
+                                    double strikePrice, double timeRemaining, double initialVolatility,
+                                    double interestRate, double dividendYield) {
         initialVolatility = initialVolatility > 0d ? initialVolatility : 0.5;
         double maxloops = 100;
         double dv = Constants.IV_PRECISION + 1;
         double n = 0;
         while (Math.abs(dv) > Constants.IV_PRECISION && n < maxloops) {
-            double difval = priceOption(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate, dividendYield) - optionPrice;
-            double v1 = vega(type, underlyingPrice, strikePrice, initialVolatility, timeRemaining, interestRate, dividendYield) / 0.01;
+            double difval = priceOption(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility,
+                    interestRate, dividendYield) - optionPrice;
+            double v1 = vega(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate,
+                    dividendYield) / 0.01;
             dv = difval / v1;
             initialVolatility = initialVolatility - dv;
             n++;
@@ -141,7 +147,9 @@ public class BlackScholes implements IOptionModel {
 
     @Override
     public IGreeks greeks(ZonedDateTime updateTime, String type, double bid, double ask, double smvPrice,
-                          double s, double strikePrice, double interestRate, double timeRemaining, double initialVolatility, double dividendYield) {
-        return utils.greeks(this, updateTime, type, bid, ask, smvPrice, s, strikePrice, interestRate, timeRemaining, initialVolatility, dividendYield, true);
+                          double s, double strikePrice, double timeRemaining, double initialVolatility,
+                          double interestRate, double dividendYield) {
+        return utils.greeks(this, updateTime, type, bid, ask, smvPrice, s, strikePrice, timeRemaining, initialVolatility, interestRate,
+                dividendYield, true);
     }
 }

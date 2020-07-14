@@ -1,7 +1,6 @@
 package com.santoch.optionpricing.common;
 
 import com.santoch.optionpricing.util.Constants;
-import com.santoch.optionpricing.vanilla.BjerksundStensland;
 import com.santoch.optionpricing.vanilla.BlackScholes;
 import org.junit.Test;
 
@@ -22,7 +21,7 @@ public class utilsTest {
         // http://www.fintools.com/resources/online-calculators/options-calcs/options-calculator/
         // delta = 0.4197, gamma = 0.0057, vega = 1.3413, theta = -0.4502, rho = 0.4026
 
-        final BlackScholes blackScholesModel = new BlackScholes();
+        final IOptionModel blackScholesModel = new BlackScholes();
         double price = 20.29616;
         double underlyingPrice = 1177.62d;
         double strikePrice = 1195.00d;
@@ -36,9 +35,9 @@ public class utilsTest {
         double bid = price;
         double ask = price;
         double smv = price;
-        IGreeks greeks = utils.greeks(blackScholesModel, updateTime, type, bid, ask,
-                smv,  underlyingPrice, strikePrice, interestRate,
-                timeRemaining, volatility, dividendYield, true);
+        IGreeks greeks = blackScholesModel.greeks(updateTime, type, bid, ask,
+                smv,  underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
+                dividendYield);
 
         System.out.println("testBlackScholesCallGreeks"
                 + " delta=" + greeks.getDelta()
@@ -74,7 +73,7 @@ public class utilsTest {
         // http://www.fintools.com/resources/online-calculators/options-calcs/options-calculator/
         // delta = -0.0415, gamma = 0.0057, vega = 0.0556, theta = -0.0221, rho = -0.0078
 
-        final BlackScholes blackScholesModel = new BlackScholes();
+        final IOptionModel blackScholesModel = new BlackScholes();
         double price = 0.2708d;
         double underlyingPrice = 214.76d;
         double strikePrice = 190.00d;
@@ -88,9 +87,9 @@ public class utilsTest {
         double bid = price;
         double ask = price;
         double smv = price;
-        IGreeks greeks = utils.greeks(blackScholesModel, updateTime, type, bid, ask,
-                smv,  underlyingPrice, strikePrice, interestRate,
-                timeRemaining, volatility, dividendYield, true);
+        IGreeks greeks = blackScholesModel.greeks(updateTime, type, bid, ask,
+                smv,  underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
+                dividendYield);
 
         System.out.println("testBlackScholesPutGreeks"
                 + " delta=" + greeks.getDelta()

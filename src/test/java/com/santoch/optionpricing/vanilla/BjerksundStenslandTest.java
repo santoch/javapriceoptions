@@ -18,7 +18,7 @@ public class BjerksundStenslandTest {
 		double interestRate = 0.0135d;
 		double dividendYield = 0.0d;
 		double bjiv = s_BjerksundStensland.impliedVolatility("C", price, underlyingPrice, strikePrice,
-				interestRate, timeRemaining, 0.5, dividendYield);
+				timeRemaining, 0.5, interestRate, dividendYield);
 		System.out.println("testBjerksundStenslandImpVol1 bjiv=" + bjiv);
 		assertEquals(0.20d, bjiv, Constants.IV_PRECISION);
 	}
@@ -32,7 +32,7 @@ public class BjerksundStenslandTest {
 		double interestRate = 0.0135d;
 		double dividendYield = 0.03d;
 		double bjiv = s_BjerksundStensland.impliedVolatility("P", price, underlyingPrice, strikePrice,
-				interestRate, timeRemaining, 0.5, dividendYield);
+				timeRemaining, 0.5, interestRate, dividendYield);
 		System.out.println("testBjerksundStenslandImpVol1 bjiv=" + bjiv);
 		assertEquals(0.20d, bjiv, Constants.IV_PRECISION);
 	}
@@ -89,15 +89,15 @@ public class BjerksundStenslandTest {
 		double dividendYield = 0.0d;
 		double volatility = 0.20d;
 		String type = "C";
-		double delta = s_BjerksundStensland.delta(type, underlyingPrice, strikePrice, volatility, timeRemaining,
+		double delta = s_BjerksundStensland.delta(type, underlyingPrice, strikePrice, timeRemaining, volatility,
 				interestRate, dividendYield);
-		double gamma = s_BjerksundStensland.gamma(underlyingPrice, strikePrice, volatility, timeRemaining,
+		double gamma = s_BjerksundStensland.gamma(underlyingPrice, strikePrice, timeRemaining, volatility,
 				interestRate, dividendYield);
-		double vega = s_BjerksundStensland.vega(type, underlyingPrice, strikePrice, volatility, timeRemaining,
+		double vega = s_BjerksundStensland.vega(type, underlyingPrice, strikePrice, timeRemaining, volatility,
 				interestRate, dividendYield);
-		double theta = s_BjerksundStensland.theta(type, underlyingPrice, strikePrice, volatility, timeRemaining,
+		double theta = s_BjerksundStensland.theta(type, underlyingPrice, strikePrice, timeRemaining, volatility,
 				interestRate, dividendYield);
-		double rho = s_BjerksundStensland.rho(type, underlyingPrice, strikePrice, volatility, timeRemaining,
+		double rho = s_BjerksundStensland.rho(type, underlyingPrice, strikePrice, timeRemaining, volatility,
 				interestRate, dividendYield);
 		System.out.println("testBjerksundStenslandCallGreeks"
 						+ " delta=" + delta
