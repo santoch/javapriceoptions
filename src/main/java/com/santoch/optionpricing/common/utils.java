@@ -1,8 +1,15 @@
 package com.santoch.optionpricing.common;
 
 import com.santoch.optionpricing.util.GreeksImpl;
+import com.santoch.optionpricing.util.NormalDistribution;
+import org.jetbrains.annotations.NotNull;
 
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.util.Collections;
+import java.util.List;
+
+import static java.time.temporal.ChronoUnit.MILLIS;
 
 public class utils {
     static public IGreeks greeks(IOptionModel model, ZonedDateTime updateTime, String type, double bid, double ask,
@@ -43,5 +50,82 @@ public class utils {
                 dividendYield));
 
         return greeks;
+    }
+
+    static public double probabilityInTheMoney(String type, double underlyingPrice, double strikePrice, double timeRemaining,
+                                  double atTheMoneyVolatility) {
+        if (underlyingPrice == strikePrice) {
+            return .5d;
+        }
+
+        NormalDistribution dist = new NormalDistribution();
+        double probabilityBelow = dist.cdf(Math.log(strikePrice / underlyingPrice) /
+                                           (atTheMoneyVolatility * Math.sqrt(timeRemaining)));
+        if ("C".equals(type)) {
+            probabilityBelow = (1.0d - probabilityBelow);
+        }
+
+        return probabilityBelow;
+    }
+
+    // returns the time between two dates as a fraction of a year.
+    static public double timeBetween(ZonedDateTime lastDate, ZonedDateTime firstDate) {
+        long diff = firstDate.until(lastDate, MILLIS);
+        return diff / (365.0d *24.0d *60.0d *60.0d *1000.0d);
+    }
+
+    // returns the expiration date that is closest to the date today+daysFromNow
+    public static ZonedDateTime findClosestExpiration(@NotNull List<ZonedDateTime> expirationList, int daysFromNow) {
+        if (expirationList.isEmpty()) {
+            return null;
+        }
+
+        ZoneId zoneId = expirationList.get(0).getZone();
+        ZonedDateTime targetDate = ZonedDateTime.now(zoneId).plusDays(daysFromNow);
+        return findClosestExpiration(expirationList, targetDate);
+    }
+
+    // returns the expiration date that is closesst to the target expiration date
+    static public ZonedDateTime findClosestExpiration(@NotNull List<ZonedDateTime> searchList, ZonedDateTime target) {
+        if (searchList.isEmpty()) {
+            return null;
+        }
+
+        var index = Collections.binarySearch(searchList, target);
+        if (index >= 0) {
+            return searchList.get(index);
+        } else {
+            index = (index * -1) - 1;
+
+            ZonedDateTime foundBefore = (index > 0) ? searchList.get(Math.min(index - 1, searchList.size()-1)) : null;
+            ZonedDateTime foundAfter = (index < searchList.size()) ? searchList.get(index) : null;
+
+            var diff1 = (foundBefore == null) ? Double.MAX_VALUE : Math.abs(timeBetween(foundBefore, target));
+            var diff2 = (foundAfter == null) ? Double.MAX_VALUE : Math.abs(timeBetween(target, foundAfter));
+
+            return (diff1 < diff2) ? foundBefore : foundAfter;
+        }
+    }
+
+    // returns the expiration date that is closesst to the target expiration date
+    static public Double findClosestValue(@NotNull List<Double> searchList, Double target) {
+        if (searchList.isEmpty()) {
+            return null;
+        }
+
+        var index = Collections.binarySearch(searchList, target);
+        if (index >= 0) {
+            return searchList.get(index);
+        } else {
+            index = (index * -1) - 1;
+
+            Double foundBefore = (index > 0) ? searchList.get(Math.min(index - 1, searchList.size()-1)) : null;
+            Double foundAfter = (index < searchList.size()) ? searchList.get(index) : null;
+
+            var diff1 = (foundBefore == null) ? Double.MAX_VALUE : Math.abs(foundBefore - target);
+            var diff2 = (foundAfter == null) ? Double.MAX_VALUE : Math.abs(target - foundAfter);
+
+            return (diff1 < diff2) ? foundBefore : foundAfter;
+        }
     }
 }
