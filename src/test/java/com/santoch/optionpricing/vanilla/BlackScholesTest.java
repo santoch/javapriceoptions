@@ -26,7 +26,7 @@ public class BlackScholesTest {
 		double bsprice = s_BlackScholes.priceOption("C", underlyingPrice, strikePrice, timeRemaining,
 				volatility, interestRate, dividendYield);
 		System.out.println("testBlackScholesCall1 bsprice=" + bsprice);
-		assertEquals(20.29616303951127d, bsprice, 0.00000000000d);
+		assertEquals(20.29616303951127d, bsprice, Constants.PRICE_PRECISION);
 	}
 
 	@Test
@@ -47,7 +47,7 @@ public class BlackScholesTest {
 		double bsprice = s_BlackScholes.priceOption("P", underlyingPrice, strikePrice, timeRemaining,
 				volatility, interestRate, dividendYield);
 		System.out.println("testBlackScholesPut1 bsprice=" + bsprice);
-		assertEquals(0.2707906395245452d, bsprice, 0.00000000000d);
+		assertEquals(0.2707906395245452d, bsprice, Constants.PRICE_PRECISION);
 	}
 
 	@Test

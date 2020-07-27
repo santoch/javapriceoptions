@@ -71,16 +71,18 @@ public class BjerksundStensland implements IOptionModel {
         }
     }
 
-    private double phi(double s, double t, double gamma, double h, double X, double v, double r, double b) {
-        double v2 = v * v;
+    private double phi(double underlyingPrice, double timeRemaining, double gamma, double h, double X,
+                       double volatility, double interestRate, double b) {
+        double v2 = volatility * volatility;
         double K = ((2 * b) / v2) + (2 * gamma - 1);
-        double lambda = -r + (gamma * b) + ((0.5 * gamma * (gamma - 1)) * v2);
-        final double vXsqrtT = v * Math.sqrt(t);
-        double tmp1 = ((Math.log(s / h)) + (b + (gamma - 0.5) * v2) * t) / vXsqrtT;
-        //double tmp2 = (Math.log((X * X) / (s * h)) + (b + (gamma - 0.5) * v2) * t) / (v * Math.pow(t, 0.5));
-        double tmp2 = tmp1 + 2 * Math.log(X / s) / vXsqrtT;
+        double lambda = -interestRate + (gamma * b) + ((0.5 * gamma * (gamma - 1)) * v2);
+        final double vXsqrtT = volatility * Math.sqrt(timeRemaining);
 
-        return Math.exp(lambda * t) * Math.pow(s, gamma) * (cdf(-tmp1) - (Math.pow(X / s, K)) * cdf(-tmp2));
+        double tmp1 = ((Math.log(underlyingPrice / h)) + (b + (gamma - 0.5) * v2) * timeRemaining) / vXsqrtT;
+        double tmp2 =
+                (Math.log((X * X) / (underlyingPrice * h)) + (b + (gamma - 0.5) * v2) * timeRemaining) / (volatility * Math.sqrt(timeRemaining));
+
+        return Math.exp(lambda * timeRemaining) * Math.pow(underlyingPrice, gamma) * (cdf(-tmp1) - (Math.pow(X / underlyingPrice, K)) * cdf(-tmp2));
     }
 
     public double delta(String type, double underlyingPrice, double strikePrice, double timeRemaining,
@@ -102,22 +104,24 @@ public class BjerksundStensland implements IOptionModel {
 
     public double vega(String type, double underlyingPrice, double strikePrice, double timeRemaining,
                        double volatility, double interestRate, double dividendYield) {
-        double m = 0.01;
+        double onePercent = 0.01;
         double val1 = priceOption(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
                 dividendYield);
-        double val2 = priceOption(type, underlyingPrice, strikePrice, timeRemaining, volatility + m, interestRate,
+        double val2 = priceOption(type, underlyingPrice, strikePrice, timeRemaining, volatility + onePercent,
+                interestRate,
                 dividendYield);
-        return (val2 - val1) / m / 100d;
+        return (val2 - val1) / onePercent / 100d;
     }
 
     public double theta(String type, double underlyingPrice, double strikePrice, double timeRemaining,
                         double volatility,
                         double interestRate, double dividendYield) {
-        double y = timeRemaining - Constants.ONE_DAY;
-        y = (y < 0) ? 0 : y;
+        double tomorrow = timeRemaining - Constants.ONE_DAY;
+        tomorrow = (tomorrow < 0) ? 0 : tomorrow;
         double val = priceOption(type, underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
                 dividendYield);
-        double valt = priceOption(type, underlyingPrice, strikePrice, y, volatility, interestRate, dividendYield);
+        double valt = priceOption(type, underlyingPrice, strikePrice, tomorrow, volatility, interestRate,
+                dividendYield);
         return valt - val;
     }
 

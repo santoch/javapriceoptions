@@ -56,7 +56,7 @@ public class BlackScholes implements IOptionModel {
         double vt = (v * (Math.sqrt(t)));
         double d1 = d1(s, k, t, v, r, q, vt);
         double etod1sqhalf = Math.exp(-(d1 * d1) * 0.5);
-        etod1sqhalf = etod1sqhalf / Constants.SQ_TWOPI;
+        etod1sqhalf = etod1sqhalf / Constants.SQRT_TWOPI;
         return etod1sqhalf;
     }
 

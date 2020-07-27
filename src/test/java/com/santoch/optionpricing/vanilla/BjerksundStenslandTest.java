@@ -54,7 +54,7 @@ public class BjerksundStenslandTest {
 		double bsprice = s_BjerksundStensland.priceOption("C", underlyingPrice, strikePrice, timeRemaining,
 				volatility, interestRate, dividendYield);
 		System.out.println("testBjerksundStenslandCall1 bsprice=" + bsprice);
-		assertEquals(19.082618995152643d, bsprice, 0.00000000000d);
+		assertEquals(19.082618995152643d, bsprice, Constants.PRICE_PRECISION);
 	}
 
 	@Test
@@ -74,7 +74,7 @@ public class BjerksundStenslandTest {
 		double bsprice = s_BjerksundStensland.priceOption("P", underlyingPrice, strikePrice, timeRemaining,
 				volatility, intererstRate, dividendYield);
 		System.out.println("testBjerksundStenslandPut1 bsprice=" + bsprice);
-		assertEquals(22.03875264497185d, bsprice, 0.00000000000d);
+		assertEquals(22.03875264497185d, bsprice, Constants.PRICE_PRECISION);
 	}
 
 	@Test
@@ -86,7 +86,7 @@ public class BjerksundStenslandTest {
 		double strikePrice = 1195.00d;
 		double timeRemaining = 0.084931506849315d; // date 12/19/2017, expiration 1/19/2018, 31 days
 		double interestRate = 0.0135d;
-		double dividendYield = 0.0d;
+		double dividendYield = 0.03d;
 		double volatility = 0.20d;
 		String type = "C";
 		double delta = s_BjerksundStensland.delta(type, underlyingPrice, strikePrice, timeRemaining, volatility,
