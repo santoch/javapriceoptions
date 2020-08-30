@@ -11,7 +11,8 @@ import java.util.List;
 
 import static java.time.temporal.ChronoUnit.MILLIS;
 
-public class utils {
+@SuppressWarnings("unused")
+public class Utils {
     static public IGreeks greeks(IOptionModel model, ZonedDateTime updateTime, String type, double bid, double ask,
                                  double smv, double underlyingPrice, double strikePrice, double timeRemaining,
                                  double initialVolatility, double interestRate, double dividendYield,
@@ -52,8 +53,8 @@ public class utils {
         return greeks;
     }
 
-    static public double probabilityInTheMoney(String type, double underlyingPrice, double strikePrice, double timeRemaining,
-                                  double atTheMoneyVolatility) {
+    static public double probabilityInTheMoney(String type, double underlyingPrice, double strikePrice,
+                                               double timeRemaining, double atTheMoneyVolatility) {
         if (underlyingPrice == strikePrice) {
             return .5d;
         }
@@ -85,7 +86,7 @@ public class utils {
         return findClosestExpiration(expirationList, targetDate);
     }
 
-    // returns the expiration date that is closesst to the target expiration date
+    // returns the expiration date that is closest to the target expiration date
     static public ZonedDateTime findClosestExpiration(@NotNull List<ZonedDateTime> searchList, ZonedDateTime target) {
         if (searchList.isEmpty()) {
             return null;
@@ -107,7 +108,7 @@ public class utils {
         }
     }
 
-    // returns the expiration date that is closesst to the target expiration date
+    // returns the expiration date that is closest to the target expiration date
     static public Double findClosestValue(@NotNull List<Double> searchList, Double target) {
         if (searchList.isEmpty()) {
             return null;

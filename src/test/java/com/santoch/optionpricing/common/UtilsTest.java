@@ -7,12 +7,11 @@ import org.junit.Test;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import static junit.framework.TestCase.assertEquals;
 import static junit.framework.TestCase.assertNull;
 
-public class utilsTest {
+public class UtilsTest {
     @Test
     public void testBlackScholesCallGreeks() {
 
@@ -35,11 +34,12 @@ public class utilsTest {
         String type = "C";
 
         ZonedDateTime updateTime = ZonedDateTime.now();
-        double bid = price;
-        double ask = price;
-        double smv = price;
-        IGreeks greeks = blackScholesModel.greeks(updateTime, type, bid, ask,
-                smv,  underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
+        IGreeks greeks = blackScholesModel.greeks(updateTime,
+                type,
+                /* bid */ price,
+                /* ask */ price,
+                /* smv */ price,
+                underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
                 dividendYield);
 
         System.out.println("testBlackScholesCallGreeks"
@@ -87,11 +87,11 @@ public class utilsTest {
         String type = "P";
 
         ZonedDateTime updateTime = ZonedDateTime.now();
-        double bid = price;
-        double ask = price;
-        double smv = price;
-        IGreeks greeks = blackScholesModel.greeks(updateTime, type, bid, ask,
-                smv,  underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
+        IGreeks greeks = blackScholesModel.greeks(updateTime, type,
+                /* bid */ price,
+                /* ask */ price,
+                /* smv */ price,
+                underlyingPrice, strikePrice, timeRemaining, volatility, interestRate,
                 dividendYield);
 
         System.out.println("testBlackScholesPutGreeks"
@@ -126,8 +126,8 @@ public class utilsTest {
         var today = ZonedDateTime.now();
 
         // test empty list
-        assertNull(utils.findClosestExpiration(theList, today));
-        assertNull(utils.findClosestExpiration(theList, 0));
+        assertNull(Utils.findClosestExpiration(theList, today));
+        assertNull(Utils.findClosestExpiration(theList, 0));
 
         var _5d = today.plusDays(5);
         var _10d = today.plusDays(10);
@@ -141,61 +141,59 @@ public class utilsTest {
         theList.add(_20d);
 
         // search for all of them
-        assertEquals(_5d, utils.findClosestExpiration(theList,_5d));
-        assertEquals(_10d, utils.findClosestExpiration(theList,_10d));
-        assertEquals(_15d, utils.findClosestExpiration(theList,_15d));
-        assertEquals(_20d, utils.findClosestExpiration(theList,_20d));
+        assertEquals(_5d, Utils.findClosestExpiration(theList,_5d));
+        assertEquals(_10d, Utils.findClosestExpiration(theList,_10d));
+        assertEquals(_15d, Utils.findClosestExpiration(theList,_15d));
+        assertEquals(_20d, Utils.findClosestExpiration(theList,_20d));
 
         // miss below and above
-        assertEquals(_5d, utils.findClosestExpiration(theList,today.plusDays(3)));
-        assertEquals(_20d, utils.findClosestExpiration(theList,today.plusDays(25)));
+        assertEquals(_5d, Utils.findClosestExpiration(theList,today.plusDays(3)));
+        assertEquals(_20d, Utils.findClosestExpiration(theList,today.plusDays(25)));
 
         // look around 5
-        assertEquals(_5d, utils.findClosestExpiration(theList,today.plusDays(4)));
-        assertEquals(_5d, utils.findClosestExpiration(theList,today.plusDays(6)));
+        assertEquals(_5d, Utils.findClosestExpiration(theList,today.plusDays(4)));
+        assertEquals(_5d, Utils.findClosestExpiration(theList,today.plusDays(6)));
 
         // look around 10
-        assertEquals(_10d, utils.findClosestExpiration(theList,today.plusDays(9)));
-        assertEquals(_10d, utils.findClosestExpiration(theList,today.plusDays(11)));
+        assertEquals(_10d, Utils.findClosestExpiration(theList,today.plusDays(9)));
+        assertEquals(_10d, Utils.findClosestExpiration(theList,today.plusDays(11)));
 
         // look around 15
-        assertEquals(_15d, utils.findClosestExpiration(theList,today.plusDays(14)));
-        assertEquals(_15d, utils.findClosestExpiration(theList,today.plusDays(16)));
+        assertEquals(_15d, Utils.findClosestExpiration(theList,today.plusDays(14)));
+        assertEquals(_15d, Utils.findClosestExpiration(theList,today.plusDays(16)));
 
         // look around 20
-        assertEquals(_20d, utils.findClosestExpiration(theList,today.plusDays(19)));
-        assertEquals(_20d, utils.findClosestExpiration(theList,today.plusDays(21)));
+        assertEquals(_20d, Utils.findClosestExpiration(theList,today.plusDays(19)));
+        assertEquals(_20d, Utils.findClosestExpiration(theList,today.plusDays(21)));
 
         // search for all of them
-        assertEquals(_5d, utils.findClosestExpiration(theList,5));
-        assertEquals(_10d, utils.findClosestExpiration(theList,10));
-        assertEquals(_15d, utils.findClosestExpiration(theList,15));
-        assertEquals(_20d, utils.findClosestExpiration(theList,20));
+        assertEquals(_5d, Utils.findClosestExpiration(theList,5));
+        assertEquals(_10d, Utils.findClosestExpiration(theList,10));
+        assertEquals(_15d, Utils.findClosestExpiration(theList,15));
+        assertEquals(_20d, Utils.findClosestExpiration(theList,20));
 
         // miss below and above
-        assertEquals(_5d, utils.findClosestExpiration(theList,3));
-        assertEquals(_20d, utils.findClosestExpiration(theList,25));
+        assertEquals(_5d, Utils.findClosestExpiration(theList,3));
+        assertEquals(_20d, Utils.findClosestExpiration(theList,25));
 
         // look around 5
-        assertEquals(_5d, utils.findClosestExpiration(theList,4));
-        assertEquals(_5d, utils.findClosestExpiration(theList,6));
+        assertEquals(_5d, Utils.findClosestExpiration(theList,4));
+        assertEquals(_5d, Utils.findClosestExpiration(theList,6));
 
         // look around 10
-        assertEquals(_10d, utils.findClosestExpiration(theList,9));
-        assertEquals(_10d, utils.findClosestExpiration(theList,11));
+        assertEquals(_10d, Utils.findClosestExpiration(theList,9));
+        assertEquals(_10d, Utils.findClosestExpiration(theList,11));
 
         // look around 15
-        assertEquals(_15d, utils.findClosestExpiration(theList,14));
-        assertEquals(_15d, utils.findClosestExpiration(theList,16));
+        assertEquals(_15d, Utils.findClosestExpiration(theList,14));
+        assertEquals(_15d, Utils.findClosestExpiration(theList,16));
 
         // look around 20
-        assertEquals(_20d, utils.findClosestExpiration(theList,19));
-        assertEquals(_20d, utils.findClosestExpiration(theList,21));
-
-
-        return;
+        assertEquals(_20d, Utils.findClosestExpiration(theList,19));
+        assertEquals(_20d, Utils.findClosestExpiration(theList,21));
     }
 
+    @SuppressWarnings("ConstantConditions")
     @Test
     public void TestFindClosestValue() {
 
@@ -203,7 +201,7 @@ public class utilsTest {
         var theList = new ArrayList<Double>();
 
         // test empty list
-        assertNull(utils.findClosestValue(theList, 5.0d));
+        assertNull(Utils.findClosestValue(theList, 5.0d));
 
         // populate the list
         theList.add(5.0d);
@@ -212,31 +210,29 @@ public class utilsTest {
         theList.add(20.0d);
 
         // search for all of them
-        assertEquals(5.0d, utils.findClosestValue(theList,5.0d), 0d);
-        assertEquals(10.0d, utils.findClosestValue(theList,10.0d), 0d);
-        assertEquals(15.0d, utils.findClosestValue(theList,15.0d), 0d);
-        assertEquals(20.0d, utils.findClosestValue(theList,20.0d), 0d);
+        assertEquals(5.0d, Utils.findClosestValue(theList,5.0d), 0d);
+        assertEquals(10.0d, Utils.findClosestValue(theList,10.0d), 0d);
+        assertEquals(15.0d, Utils.findClosestValue(theList,15.0d), 0d);
+        assertEquals(20.0d, Utils.findClosestValue(theList,20.0d), 0d);
 
         // miss below and above
-        assertEquals(5.0d, utils.findClosestValue(theList,3.0d), 0d);
-        assertEquals(20.0d, utils.findClosestValue(theList,25.0d), 0d);
+        assertEquals(5.0d, Utils.findClosestValue(theList,3.0d), 0d);
+        assertEquals(20.0d, Utils.findClosestValue(theList,25.0d), 0d);
 
         // look around 5
-        assertEquals(5.0d, utils.findClosestValue(theList,4.0d), 0d);
-        assertEquals(5.0d, utils.findClosestValue(theList,6.0d), 0d);
+        assertEquals(5.0d, Utils.findClosestValue(theList,4.0d), 0d);
+        assertEquals(5.0d, Utils.findClosestValue(theList,6.0d), 0d);
 
         // look around 10
-        assertEquals(10.0d, utils.findClosestValue(theList,9.0d), 0d);
-        assertEquals(10.0d, utils.findClosestValue(theList,11.0d), 0d);
+        assertEquals(10.0d, Utils.findClosestValue(theList,9.0d), 0d);
+        assertEquals(10.0d, Utils.findClosestValue(theList,11.0d), 0d);
 
         // look around 15
-        assertEquals(15.0d, utils.findClosestValue(theList,14.0d), 0d);
-        assertEquals(15.0d, utils.findClosestValue(theList,16.0d), 0d);
+        assertEquals(15.0d, Utils.findClosestValue(theList,14.0d), 0d);
+        assertEquals(15.0d, Utils.findClosestValue(theList,16.0d), 0d);
 
         // look around 20
-        assertEquals(20.0d, utils.findClosestValue(theList,19.0d), 0d);
-        assertEquals(20.0d, utils.findClosestValue(theList,21.0d), 0d);
-
-        return;
+        assertEquals(20.0d, Utils.findClosestValue(theList,19.0d), 0d);
+        assertEquals(20.0d, Utils.findClosestValue(theList,21.0d), 0d);
     }
 }

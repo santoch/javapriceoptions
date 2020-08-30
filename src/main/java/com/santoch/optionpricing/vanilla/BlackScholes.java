@@ -2,7 +2,7 @@ package com.santoch.optionpricing.vanilla;
 
 import com.santoch.optionpricing.common.IGreeks;
 import com.santoch.optionpricing.common.IOptionModel;
-import com.santoch.optionpricing.common.utils;
+import com.santoch.optionpricing.common.Utils;
 import com.santoch.optionpricing.util.Constants;
 
 import java.time.ZonedDateTime;
@@ -149,7 +149,7 @@ public class BlackScholes implements IOptionModel {
     public IGreeks greeks(ZonedDateTime updateTime, String type, double bid, double ask, double smvPrice,
                           double s, double strikePrice, double timeRemaining, double initialVolatility,
                           double interestRate, double dividendYield) {
-        return utils.greeks(this, updateTime, type, bid, ask, smvPrice, s, strikePrice, timeRemaining, initialVolatility, interestRate,
+        return Utils.greeks(this, updateTime, type, bid, ask, smvPrice, s, strikePrice, timeRemaining, initialVolatility, interestRate,
                 dividendYield, true);
     }
 }
