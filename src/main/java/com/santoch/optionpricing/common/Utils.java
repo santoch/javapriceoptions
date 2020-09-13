@@ -26,7 +26,7 @@ public class Utils {
                 initialVolatility,
                 interestRate, dividendYield);
         greeks.setSmvVol(smvVol);
-        if (useSmvVol) {
+        if (useSmvVol && smvVol != Double.NaN && smvVol > 0) {
             initialVolatility = smvVol;
         }
 
