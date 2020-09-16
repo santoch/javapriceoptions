@@ -79,6 +79,21 @@ public class BlackScholesTest {
 	}
 
 	@Test
+	public void testBlackScholesPutImpVol2() {
+		double price = 6.60d;
+		double underlyingPrice = 300.0d;
+		double strikePrice = 250.0d;
+		double timeRemaining = 0.084931506849315d;
+		double interestRate = 0.03d;
+		double dividendYield = 0.0d;
+		double bsiv = s_BlackScholes.impliedVolatility("P", price, underlyingPrice, strikePrice, timeRemaining, 0.5,
+				interestRate,
+				dividendYield);
+		System.out.println("testBlackScholesPutImpVol2 bsiv=" + bsiv);
+		assertEquals(0.74998, bsiv, Constants.IV_PRECISION);
+	}
+
+	@Test
 	public void testBlackScholesCallGreeks() {
 
 		// online calculator comparisons

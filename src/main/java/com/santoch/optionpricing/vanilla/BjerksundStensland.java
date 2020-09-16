@@ -50,7 +50,7 @@ public class BjerksundStensland implements IOptionModel {
         final double betazero = Math.max(strikePrice, (interestRate / dividendYield) * strikePrice);
 
         final double h = -((costOfCarry * timeRemaining) + (2 * volatility * Math.pow(timeRemaining, 0.5))) *
-                   ((strikePrice * strikePrice) / ((betainfinity - betazero) * betazero));
+                         ((strikePrice * strikePrice) / ((betainfinity - betazero) * betazero));
         final double X = betazero + ((betainfinity - betazero) * (1 - Math.exp(h)));
 
         if (X < underlyingPrice) {
@@ -135,10 +135,11 @@ public class BjerksundStensland implements IOptionModel {
     public double impliedVolatility(String type, double optionPrice, double underlyingPrice, double strikePrice,
                                     double timeRemaining, double initialVolatility, double interestRate,
                                     double dividendYield) {
-        initialVolatility = initialVolatility == 0d ? 0.5 : initialVolatility;
-        final double maxloops = 1000;
+        initialVolatility = initialVolatility > 0d ? initialVolatility : 0.5;
+        final int maxloops = 1000;
+        int n = 0;
         double dv = Constants.IV_PRECISION + 1;
-        double n = 0;
+
         double upper = Double.MAX_VALUE;
         double lower = 0d;
 
@@ -154,7 +155,7 @@ public class BjerksundStensland implements IOptionModel {
                     double diffVal2;
                     double upper2 = lower;
                     do {
-                        upper2 += 100.0d;
+                        upper2 += .1d;
                         diffVal2 = priceOption(type, underlyingPrice, strikePrice, timeRemaining, upper2,
                                 interestRate, dividendYield) - optionPrice;
                         if (diffVal2 < 0) {
@@ -168,16 +169,16 @@ public class BjerksundStensland implements IOptionModel {
 
             double v1 = vega(type, underlyingPrice, strikePrice, timeRemaining, initialVolatility, interestRate,
                     dividendYield) / 0.01;
-
             if (v1 > Constants.IV_PRECISION / 1000.d) {
                 dv = diffVal / v1;
                 initialVolatility = initialVolatility - dv;
             } else {
-                initialVolatility = (upper - lower) / 2.0d;
-                dv = upper - initialVolatility;
+                initialVolatility = (upper + lower) / 2.0d;
+                dv = upper - lower;
             }
             n++;
         }
+        System.out.println(String.format("took %1$d loops to converge", n));
         //return n < maxloops ? initialVolatility : Double.NaN;
         return initialVolatility;
     }
