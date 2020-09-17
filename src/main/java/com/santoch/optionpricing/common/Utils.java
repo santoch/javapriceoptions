@@ -53,6 +53,18 @@ public class Utils {
         return greeks;
     }
 
+    static public double probabilityBelow(double underlyingPrice, double strikePrice,
+                                               double timeRemaining, double atTheMoneyVolatility) {
+        if (underlyingPrice == strikePrice) {
+            return .5d;
+        }
+
+        NormalDistribution dist = new NormalDistribution();
+        double probabilityBelow = dist.cdf(Math.log(strikePrice / underlyingPrice) /
+                                           (atTheMoneyVolatility * Math.sqrt(timeRemaining)));
+        return probabilityBelow;
+    }
+
     static public double probabilityInTheMoney(String type, double underlyingPrice, double strikePrice,
                                                double timeRemaining, double atTheMoneyVolatility) {
         if (underlyingPrice == strikePrice) {
