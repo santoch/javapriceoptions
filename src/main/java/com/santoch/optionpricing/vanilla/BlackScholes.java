@@ -171,7 +171,7 @@ public class BlackScholes implements IOptionModel {
             }
             n++;
         }
-        System.out.println(String.format("took %1$d loops to converge", n));
+        //System.out.println(String.format("took %1$d loops to converge", n));
         //return n < maxloops ? initialVolatility : Double.NaN;
         return initialVolatility;
     }
