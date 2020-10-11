@@ -59,7 +59,7 @@ public class Utils {
             return .5d;
         }
 
-        NormalDistribution dist = new NormalDistribution();
+        NormalDistribution dist = NormalDistribution.Standard();
         double probabilityBelow = dist.cdf(Math.log(strikePrice / underlyingPrice) /
                                            (atTheMoneyVolatility * Math.sqrt(timeRemaining)));
         return probabilityBelow;
@@ -71,7 +71,7 @@ public class Utils {
             return .5d;
         }
 
-        NormalDistribution dist = new NormalDistribution();
+        NormalDistribution dist = NormalDistribution.Standard();
         double probabilityBelow = dist.cdf(Math.log(strikePrice / underlyingPrice) /
                                            (atTheMoneyVolatility * Math.sqrt(timeRemaining)));
         if ("C".equals(type)) {

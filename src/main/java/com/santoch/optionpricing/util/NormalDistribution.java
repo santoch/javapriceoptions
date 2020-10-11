@@ -13,6 +13,7 @@ public class NormalDistribution {
     private final double stdDevSqrtTwoPi;
     private final double twoSigmaSquared;
     private final double sqrt2 = Math.sqrt(2.0d);
+    private static final NormalDistribution standard = new NormalDistribution();
 
     public NormalDistribution(double mean, double standardDeviation) {
         this.mean = mean;
@@ -21,7 +22,11 @@ public class NormalDistribution {
         this.twoSigmaSquared = standardDeviation == 1d ? 2d : 2d * Math.pow(standardDeviation, 2d);
     }
 
-    public NormalDistribution() {
+    public static NormalDistribution Standard() {
+        return standard;
+    }
+
+    private NormalDistribution() {
         this(0, 1);
     }
 
