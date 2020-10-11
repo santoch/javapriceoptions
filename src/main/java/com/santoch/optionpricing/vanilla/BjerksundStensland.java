@@ -162,7 +162,10 @@ public class BjerksundStensland implements IOptionModel {
                             lower = upper2;
                             ++n;
                         }
-                    } while (diffVal2 < 0);
+                    } while (diffVal2 < 0 && n < 10000);
+                    if (n == 10000) {
+                        return upper2;
+                    }
                     upper = upper2;
                 }
             }
