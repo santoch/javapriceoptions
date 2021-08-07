@@ -1,6 +1,5 @@
 package com.santoch.optionpricing.util;
 
-import com.santoch.optionpricing.common.utils;
 import org.apache.commons.math3.special.Erf;
 import org.junit.Assert;
 import org.junit.Test;
@@ -9,7 +8,7 @@ public class NormalDistributionTest {
 
     @Test
     public void testPdfStdMean() {
-        NormalDistribution nd = new NormalDistribution();
+        NormalDistribution nd = NormalDistribution.Standard();
         double x = 0.0d;
         double pdf = nd.pdf(x);
         double expectedPdf = 0.3989422804014327;
@@ -20,7 +19,7 @@ public class NormalDistributionTest {
 
     @Test
     public void testPdfStdNegativePositiveSame() {
-        NormalDistribution nd = new NormalDistribution();
+        NormalDistribution nd = NormalDistribution.Standard();
         double x = 0.56d;
         double pdf = nd.pdf(x);
         double expectedPdf = 0.34104578863035256d;
@@ -35,7 +34,7 @@ public class NormalDistributionTest {
 
     @Test
     public void testPdfStdTwoStdDev() {
-        NormalDistribution nd = new NormalDistribution();
+        NormalDistribution nd = NormalDistribution.Standard();
         double x = 2.0d;
         double pdf = nd.pdf(x);
         double expectedPdf = 0.05399096651318806;
@@ -47,7 +46,7 @@ public class NormalDistributionTest {
 
     @Test
     public void testPdfMaxAtMean() {
-        NormalDistribution nd = new NormalDistribution();
+        NormalDistribution nd = NormalDistribution.Standard();
         double pdf = 0.0d;
         double maxX = 0.0d;
         for (double x = -8.0d; x <= 8.0d; x += 0.01d) {
@@ -69,7 +68,7 @@ public class NormalDistributionTest {
 
     @Test
     public void testPdfVsApacheMath() {
-        NormalDistribution nd = new NormalDistribution();
+        NormalDistribution nd = NormalDistribution.Standard();
         double x = 0.56d;
         double pdf = nd.pdf(x);
         org.apache.commons.math3.distribution.NormalDistribution and =
@@ -98,7 +97,7 @@ public class NormalDistributionTest {
 
     @Test
     public void testCdf() {
-        NormalDistribution nd = new NormalDistribution();
+        NormalDistribution nd = NormalDistribution.Standard();
         double x = 0.56d;
         double cdf = nd.cdf(x);
         double expectedCdf = 0.7122603051006894d;
@@ -121,7 +120,7 @@ public class NormalDistributionTest {
 
     @Test
     public void testCdfVsApache() {
-        NormalDistribution nd = new NormalDistribution();
+        NormalDistribution nd = NormalDistribution.Standard();
         double x = 0.56d;
         double cdf = nd.cdf(x);
         org.apache.commons.math3.distribution.NormalDistribution and =
@@ -227,15 +226,5 @@ public class NormalDistributionTest {
         double ulp = 1.0e-5;
         System.out.println("stdnormal StdDev, expected= " + expectedStdDev + " within " + ulp);
         Assert.assertEquals(expectedStdDev, actualStdDev, ulp);
-    }
-
-    @Test
-    public void testGetOneSigma() {
-        // $323.62 x 31.6% x SQRT (22/365) = $25.11
-        double expected = 25.11;
-        double ulp = 1.0e-2;
-        double sigma = utils.OneSigma(323.62, .316, 22);
-        System.out.println("1 sigma, expected= " + expected + " within " + ulp);
-        Assert.assertEquals(expected, sigma, ulp);
     }
 }
