@@ -1,5 +1,6 @@
 package com.santoch.optionpricing.util;
 
+import com.santoch.optionpricing.common.utils;
 import org.apache.commons.math3.special.Erf;
 import org.junit.Assert;
 import org.junit.Test;
@@ -226,5 +227,15 @@ public class NormalDistributionTest {
         double ulp = 1.0e-5;
         System.out.println("stdnormal StdDev, expected= " + expectedStdDev + " within " + ulp);
         Assert.assertEquals(expectedStdDev, actualStdDev, ulp);
+    }
+
+    @Test
+    public void testGetOneSigma() {
+        // $323.62 x 31.6% x SQRT (22/365) = $25.11
+        double expected = 25.11;
+        double ulp = 1.0e-2;
+        double sigma = utils.OneSigma(323.62, .316, 22);
+        System.out.println("1 sigma, expected= " + expected + " within " + ulp);
+        Assert.assertEquals(expected, sigma, ulp);
     }
 }

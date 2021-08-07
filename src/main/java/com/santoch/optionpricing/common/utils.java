@@ -5,6 +5,10 @@ import com.santoch.optionpricing.util.GreeksImpl;
 import java.time.ZonedDateTime;
 
 public class utils {
+    static public double OneSigma(double underlyingPrice, double volatility, double timeRemaining) {
+        return (underlyingPrice) * (volatility) * (Math.sqrt(timeRemaining / 365.0));
+    }
+
     static public IGreeks greeks(IOptionModel model, ZonedDateTime updateTime, String type, double bid, double ask,
                                  double smv,  double underlyingPrice, double strikePrice, double interestRate,
                                  double timeRemaining, double volatility, double dividendYield, boolean useSmvVol) {
