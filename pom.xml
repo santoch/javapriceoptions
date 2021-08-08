@@ -9,7 +9,7 @@
     </properties>
     <groupId>com.santoch</groupId>
     <artifactId>javapricingoptions</artifactId>
-    <version>2.1.0</version>
+    <version>2.1.1-SNAPSHOT</version>
     <dependencies>
         <dependency>
             <groupId>junit</groupId>
