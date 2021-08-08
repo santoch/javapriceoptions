@@ -26,7 +26,7 @@ public class Utils {
                 initialVolatility,
                 interestRate, dividendYield);
         greeks.setSmvVol(smvVol);
-        if (useSmvVol && smvVol != Double.NaN && smvVol > 0) {
+        if (useSmvVol && smvVol > 0) {
             initialVolatility = smvVol;
         }
 
@@ -60,9 +60,8 @@ public class Utils {
         }
 
         NormalDistribution dist = NormalDistribution.Standard();
-        double probabilityBelow = dist.cdf(Math.log(strikePrice / underlyingPrice) /
-                                           (atTheMoneyVolatility * Math.sqrt(timeRemaining)));
-        return probabilityBelow;
+        return dist.cdf(Math.log(strikePrice / underlyingPrice) /
+                        (atTheMoneyVolatility * Math.sqrt(timeRemaining)));
     }
 
     static public double probabilityInTheMoney(String type, double underlyingPrice, double strikePrice,
