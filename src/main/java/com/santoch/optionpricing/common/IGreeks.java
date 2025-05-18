@@ -39,7 +39,7 @@ public interface IGreeks {
 
     void setSmvVol(double smv_vol);
 
-    ZonedDateTime getUpdate_time();
+    ZonedDateTime getUpdateTime();
 
-    void setUpdate_time(ZonedDateTime update_time);
+    void setUpdateTime(ZonedDateTime update_time);
 }

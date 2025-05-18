@@ -10,11 +10,11 @@ public class GreeksImpl implements IGreeks {
     private double theta;
     private double vega;
     private double rho;
-    private double bid_iv;
-    private double mid_iv;
-    private double ask_iv;
-    private double smv_vol;
-    private ZonedDateTime update_time;
+    private double bidIv;
+    private double midIv;
+    private double askIv;
+    private double smvVol;
+    private ZonedDateTime updateTime;
 
     @Override
     public double getDelta() {
@@ -68,51 +68,51 @@ public class GreeksImpl implements IGreeks {
 
     @Override
     public double getBidIv() {
-        return bid_iv;
+        return bidIv;
     }
 
     @Override
     public void setBidIv(double bid_iv) {
-        this.bid_iv = bid_iv;
+        this.bidIv = bid_iv;
     }
 
     @Override
     public double getMidIv() {
-        return mid_iv;
+        return midIv;
     }
 
     @Override
     public void setMidIv(double mid_iv) {
-        this.mid_iv = mid_iv;
+        this.midIv = mid_iv;
     }
 
     @Override
     public double getAskIv() {
-        return ask_iv;
+        return askIv;
     }
 
     @Override
     public void setAskIv(double ask_iv) {
-        this.ask_iv = ask_iv;
+        this.askIv = ask_iv;
     }
 
     @Override
     public double getSmvVol() {
-        return smv_vol;
+        return smvVol;
     }
 
     @Override
     public void setSmvVol(double smv_vol) {
-        this.smv_vol = smv_vol;
+        this.smvVol = smv_vol;
     }
 
     @Override
-    public ZonedDateTime getUpdate_time() {
-        return update_time;
+    public ZonedDateTime getUpdateTime() {
+        return updateTime;
     }
 
     @Override
-    public void setUpdate_time(ZonedDateTime update_time) {
-        this.update_time = update_time;
+    public void setUpdateTime(ZonedDateTime update_time) {
+        this.updateTime = update_time;
     }
 }
