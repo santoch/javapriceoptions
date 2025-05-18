@@ -2,15 +2,16 @@ package com.santoch.optionpricing.common;
 
 import com.santoch.optionpricing.util.Constants;
 import com.santoch.optionpricing.vanilla.BlackScholes;
-import org.junit.Assert;
-import org.junit.Test;
 
+import java.security.InvalidParameterException;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
-import static junit.framework.TestCase.assertEquals;
-import static junit.framework.TestCase.assertNull;
+import org.junit.jupiter.api.*;
+
+import static org.junit.jupiter.api.Assertions.*;
+
 
 public class UtilsTest {
     @Test
@@ -53,7 +54,7 @@ public class UtilsTest {
                 + ", askIv=" + greeks.getAskIv()
                 + ", midIv=" + greeks.getMidIv()
                 + ", smvVol=" + greeks.getSmvVol()
-                + ", updateTime=" + greeks.getUpdate_time().format(DateTimeFormatter.ISO_DATE_TIME)
+                + ", updateTime=" + greeks.getUpdateTime().format(DateTimeFormatter.ISO_DATE_TIME)
         );
 
         assertEquals(0.41974, greeks.getDelta(), 0.0001d);
@@ -65,7 +66,7 @@ public class UtilsTest {
         assertEquals(0.20d, greeks.getBidIv(), Constants.IV_PRECISION);
         assertEquals(0.20d, greeks.getMidIv(), Constants.IV_PRECISION);
         assertEquals(0.20d, greeks.getSmvVol(), Constants.IV_PRECISION);
-        assertEquals(updateTime, greeks.getUpdate_time());
+        assertEquals(updateTime, greeks.getUpdateTime());
     }
 
     @Test
@@ -105,7 +106,7 @@ public class UtilsTest {
                 + ", askIv=" + greeks.getAskIv()
                 + ", midIv=" + greeks.getMidIv()
                 + ", smvVol=" + greeks.getSmvVol()
-                + ", updateTime=" + greeks.getUpdate_time().format(DateTimeFormatter.ISO_DATE_TIME)
+                + ", updateTime=" + greeks.getUpdateTime().format(DateTimeFormatter.ISO_DATE_TIME)
         );
         assertEquals(-0.04150, greeks.getDelta(), 0.0001d);
         assertEquals(0.00567, greeks.getGamma(), 0.0001d);
@@ -116,7 +117,7 @@ public class UtilsTest {
         assertEquals(0.25d, greeks.getBidIv(), Constants.IV_PRECISION);
         assertEquals(0.25d, greeks.getMidIv(), Constants.IV_PRECISION);
         assertEquals(0.25d, greeks.getSmvVol(), Constants.IV_PRECISION);
-        assertEquals(updateTime, greeks.getUpdate_time());
+        assertEquals(updateTime, greeks.getUpdateTime());
     }
 
     @Test
@@ -127,8 +128,10 @@ public class UtilsTest {
         var today = ZonedDateTime.now();
 
         // test empty list
-        assertNull(Utils.findClosestExpiration(theList, today));
-        assertNull(Utils.findClosestExpiration(theList, 0));
+        assertThrows(InvalidParameterException.class,
+                () -> Utils.findClosestExpiration(theList, today));
+        assertThrows(InvalidParameterException.class,
+                () -> Utils.findClosestExpiration(theList, 0));
 
         var _5d = today.plusDays(5);
         var _10d = today.plusDays(10);
@@ -242,8 +245,8 @@ public class UtilsTest {
         // $323.62 x 31.6% x SQRT (22/365) = $25.11
         double expected = 25.11;
         double ulp = 1.0e-2;
-        double sigma = Utils.OneSigma(323.62, .316, 22);
+        double sigma = Utils.oneSigma(323.62, .316, 22);
         System.out.println("1 sigma, expected= " + expected + " within " + ulp);
-        Assert.assertEquals(expected, sigma, ulp);
+        assertEquals(expected, sigma, ulp);
     }
 }

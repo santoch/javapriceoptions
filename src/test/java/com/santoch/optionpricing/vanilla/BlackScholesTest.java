@@ -1,9 +1,8 @@
 package com.santoch.optionpricing.vanilla;
 
 import com.santoch.optionpricing.util.Constants;
-import org.junit.Test;
-
-import static junit.framework.TestCase.assertEquals;
+import org.junit.jupiter.api.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BlackScholesTest {
 	static final BlackScholes s_BlackScholes = new BlackScholes();
