@@ -1,6 +1,6 @@
 package com.santoch.optionpricing.util;
 
-// references: 
+// references:
 // http://mathworld.wolfram.com/NormalDistribution.html
 // http://mathworld.wolfram.com/RegularizedGammaFunction.html
 // http://mathworld.wolfram.com/Erf.html
